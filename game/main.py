@@ -72,9 +72,9 @@ def handle_scenes(events):
         case 'choosing_character':
             show_choosing_character_screen(events, start_game)
         case 'waiting':
-            draw_center_text('Waiting for other player')
+            draw_center_text('Waiting for other player ...')
         case 'connecting':
-            draw_center_text('Connecting')
+            draw_center_text('Connecting ...')
         case 'playing':
             show_playing_screen(events, sc, you, enemy)
         case 'connection_error':
