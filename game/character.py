@@ -3,44 +3,82 @@ import pydantic
 
 class Character(pydantic.BaseModel):
     name: str
-    power: int
+    strike_power: int
+    magic_power: int
     magic_rate: int
     strike_rate: int
     defence_rate: int
     magic_reset_rate: int
+    special_magic: int
+    special_magic_success_rate: int
 
     def get_stats(self):
         return {
             "Name": self.name,
-            "Power": self.power,
-            "Magic Rate": self.magic_rate,
-            "Strike Rate": self.strike_rate,
-            "Defence Rate": self.defence_rate,
-            "Magic Reset Rate": self.magic_reset_rate
+            "Strike Power": self.strike_power,
+            "Magic Power": self.magic_power,
+            "Magic Success Rate": self.magic_rate,
+            "Strike Success Rate": self.strike_rate,
+            "Defence Success Rate": self.defence_rate,
+            "Magic Reset Rate": self.magic_reset_rate,
+            "Special Magic Power": self.special_magic,
+            "Special Magic Success Rate": self.special_magic_success_rate
         }
 
 
-harry_potter_info = {
+harry_potter = {
     "name": "Harry Potter",
-    "power": 14,
-    "magic_rate": 12,
-    "strike_rate": 45,
-    "defence_rate": 60,
-    "magic_reset_rate": 3,
-}
-
-someone_info = {
-    "name": "Someone Else",
-    "power": 15,
-    "magic_rate": 12,
+    "strike_power": 9,
+    "magic_power": 14,
+    "magic_rate": 35,
     "strike_rate": 70,
-    "defence_rate": 40,
+    "defence_rate": 45,
     "magic_reset_rate": 5,
+    "special_magic": 25,
+    "special_magic_success_rate": 50
 }
 
-harry_potter = Character(**harry_potter_info)
-someone = Character(**someone_info)
-characters = [harry_potter, someone]
+dumbledore = {
+    "name": "Dumbledore",
+    "strike_power": 7,
+    "magic_power": 17,
+    "magic_rate": 65,
+    "strike_rate": 70,
+    "defence_rate": 80,
+    "magic_reset_rate": 5,
+    "special_magic": 37,
+    "special_magic_success_rate": 49
+}
+
+voldemort = {
+    "name": "Voldemort",
+    "strike_power": 10,
+    "magic_power": 16,
+    "magic_rate": 55,
+    "strike_rate": 70,
+    "defence_rate": 35,
+    "magic_reset_rate": 5,
+    "special_magic": 33,
+    "special_magic_success_rate": 42
+}
+
+hermione = {
+    "name": "Hermione",
+    "strike_power": 10,
+    "magic_power": 15,
+    "magic_rate": 60,
+    "strike_rate": 50,
+    "defence_rate": 50,
+    "magic_reset_rate": 5,
+    "special_magic": 30,
+    "special_magic_success_rate": 50
+}
+
+harry_potter = Character(**harry_potter)
+dumbledore = Character(**dumbledore)
+voldemort = Character(**voldemort)
+hermione = Character(**hermione)
+characters = [harry_potter, dumbledore, voldemort, hermione]
 
 
 def find_character(name):

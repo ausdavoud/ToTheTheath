@@ -2,6 +2,7 @@ import socket
 from pydantic import BaseModel
 from typing import Any
 
+
 class Player(BaseModel):
     socket: Any
     address: Any
@@ -13,7 +14,7 @@ class Player(BaseModel):
     health: int = 100
     magic: int = 100
     magic_limit: int = 100
-    
+
     def decrease_health(self, value):
         if self.health - value > 0:
             self.health -= value
