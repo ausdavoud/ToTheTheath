@@ -49,4 +49,4 @@ def show_playing_screen(events, socket, you, enemy):
         for i, move in enumerate(moves):
             draw_move_option(move, 330, 325 + (i * 52), i == move_index)
     elif status == 'waiting':
-        draw_text("Waiting for enemy's move", 340, 300)
+        draw_text("Waiting for enemy's move ...", 327, 340)
