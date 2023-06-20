@@ -72,7 +72,7 @@ def handle_player_connection(player):
 def start_server():
     while True:
         player, addr = soc.accept()
-        player = Player(player, addr)
+        player = Player(socket=player, address=addr)
         print(">> NEW CONNECTION:", addr)
         player.send("Hello from server")
         start_new_thread(handle_player_connection, (player,))

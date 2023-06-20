@@ -3,38 +3,17 @@ from pydantic import BaseModel
 from typing import Any
 
 class Player(BaseModel):
-    __name: str = None
+    socket: Any
+    address: Any
+    current_move: str = None
+    match_id: int = None
+    index: int = None
+    character: Any
+    name: str = None
     health: int = 100
     magic: int = 100
     magic_limit: int = 100
-    socket: Any
-    current_move = None
-    address: Any
-    match_id = None
-    index = None
-    character = None
     
-    def __init__(self, player_socket, addr):
-        self.__name = None
-        self.health = 100
-        self.magic = 100
-        self.magic_limit = 100
-        self.socket = player_socket
-        self.current_move = None
-        self.address = addr
-        self.match_id = None
-        self.index = None
-        self.character = None
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, character_name):
-        self.__name = character_name
-        # self.character = find_character(character_name)
-
     def decrease_health(self, value):
         if self.health - value > 0:
             self.health -= value

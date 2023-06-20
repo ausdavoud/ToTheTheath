@@ -47,7 +47,7 @@ def connect_to_server():
 def start_game(character):
     global you
     change_scene('waiting')
-    you = Player(character)
+    you = Player(character=character)
 
     def _start():
         global enemy
@@ -56,7 +56,7 @@ def start_game(character):
             enemy_character_name = sc.recv(1024).decode('utf-8')
             enemy = find_character(enemy_character_name)
             if enemy:
-                enemy = Player(enemy)
+                enemy = Player(character=enemy)
                 change_scene('playing')
             else:
                 msg = enemy_character_name
