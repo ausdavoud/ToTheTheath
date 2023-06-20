@@ -1,9 +1,11 @@
-class Player:
-    def __init__(self, character):
-        self.health = 100
-        self.magic = 100
-        self.magic_limit = 100
-        self.character = character
+from pydantic import BaseModel
+from typing import Any
+
+class Player(BaseModel):
+    health: int = 100
+    magic: int = 100
+    magic_limit: int = 100
+    character: Any
 
     def decrease_health(self, value):
         if self.health - value > 0:

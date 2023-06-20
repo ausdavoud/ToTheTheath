@@ -1,7 +1,19 @@
 import socket
+from pydantic import BaseModel
+from typing import Any
 
-
-class Player:
+class Player(BaseModel):
+    __name: str = None
+    health: int = 100
+    magic: int = 100
+    magic_limit: int = 100
+    socket: Any
+    current_move = None
+    address: Any
+    match_id = None
+    index = None
+    character = None
+    
     def __init__(self, player_socket, addr):
         self.__name = None
         self.health = 100
