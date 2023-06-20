@@ -2,6 +2,13 @@ import socket
 from pydantic import BaseModel
 from typing import Any
 
+import sys
+sys.path.insert(0, '..')
+
+from game import character
+
+print(character.find_character('Harry Potter'))
+
 class Player(BaseModel):
     socket: Any
     address: Any
