@@ -1,6 +1,7 @@
 import socket
 from _thread import start_new_thread
 from player import Player
+from fight import Fight
 
 ADDR, PORT = "", 4000
 soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -14,15 +15,21 @@ waiting_player = None
 running_matches = []
 
 
-def process_move(player, move):
+def process_move(player: Player, move: str):
     enemy_index = int(not bool(player.index))
-    enemy = running_matches[player.match_id][enemy_index]
+    enemy: Player = running_matches[player.match_id][enemy_index]
     print(player.name, ":", move)
     if not player.current_move and not enemy.current_move:
         player.current_move = move
     elif not player.current_move and enemy.current_move:
         player.current_move = move
         # Do the magic here
+        _fight = Fight(player1=player, player2=enemy,
+                       player1_move=player.current_move,
+                       player2_move=enemy.current_move)
+        player, enemy = _fight.fight()
+        
+        # End of magic
         player.current_move = move
         enemy.current_move = None
 

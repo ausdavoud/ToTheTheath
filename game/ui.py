@@ -1,10 +1,11 @@
 import pygame
 import pygame.freetype
+import os
 
 pygame.init()
-
-text_font = pygame.freetype.Font('lexend.ttf', 18)
-header_font = pygame.freetype.Font('lexend.ttf', 22)
+font_path = os.path.join('game', 'lexend.ttf')
+text_font = pygame.freetype.Font(font_path, 18)
+header_font = pygame.freetype.Font(font_path, 22)
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)

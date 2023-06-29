@@ -1,7 +1,6 @@
-import pydantic
+from pydantic import BaseModel
 
-
-class Character(pydantic.BaseModel):
+class Character(BaseModel):
     name: str
     strike_power: int
     magic_power: int

@@ -1,13 +1,13 @@
 import socket
 from pydantic import BaseModel
 from typing import Any
-
 import sys
-sys.path.insert(0, '..')
+sys.path.insert(0, '.')
+from game.character import Character
 
-from game import character
+# from game import character
 
-print(character.find_character('Harry Potter'))
+# print(character.find_character('Harry Potter'))
 
 class Player(BaseModel):
     socket: Any
@@ -15,7 +15,7 @@ class Player(BaseModel):
     current_move: str = None
     match_id: int = None
     index: int = None
-    character: Any
+    character = Character
     name: str = None
     health: int = 100
     magic: int = 100
