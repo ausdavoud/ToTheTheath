@@ -1,23 +1,23 @@
-from character import characters
+# import sys
+# sys.path.insert(0, '.')
+# from server.character import characters
 from ui import *
 
 current_index = 0
-
 
 def draw_character_option(character, x, y, selected=False):
     rect = pygame.Rect(x, y, 300, 48)
     pygame.draw.rect(pygame.display.get_surface(), BLACK, rect, 0 if selected else 2)
     draw_text(character.name, x + 16, y + 16, WHITE if selected else BLACK)
 
-
 def show_stats(character):
     draw_text("Stats -------------", 520, 100, BLACK, header_font)
     stats = character.get_stats()
     for i, stat in enumerate(stats.keys()):
-        draw_text(f"{stat} : {stats[stat]}", 520, 100 + 48 + (25 + 8) * i)
+        draw_text(f"{stat.split('_').capatilized()} : {stats[stat]}", 520, 100 + 48 + (25 + 8) * i)
 
 
-def show_choosing_character_screen(events, enter_function):
+def show_choosing_character_screen(events, enter_function, characters):
     global current_index
 
     for event in events:

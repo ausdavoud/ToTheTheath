@@ -24,6 +24,9 @@ class Character(BaseModel):
             "Special Magic Success Rate": self.special_magic_success_rate
         }
 
+def find_character(name):
+    for character in characters:
+        if character.name == name: return character
 
 harry_potter = {
     "name": "Harry Potter",
@@ -78,8 +81,5 @@ dumbledore = Character(**dumbledore)
 voldemort = Character(**voldemort)
 hermione = Character(**hermione)
 characters = [harry_potter, dumbledore, voldemort, hermione]
-
-
-def find_character(name):
-    for character in characters:
-        if character.name == name: return character
+characters_dict = [harry_potter.dict(), dumbledore.dict(), 
+                   voldemort.dict(), hermione.dict()]

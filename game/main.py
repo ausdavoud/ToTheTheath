@@ -4,7 +4,9 @@ from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen
 from playing_scene import show_playing_screen
 from player import Player
-from character import find_character
+import sys
+sys.path.insert(0, '.')
+from server.character import find_character
 from ui import *
 
 sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

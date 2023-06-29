@@ -1,4 +1,4 @@
-from game.character import Character
+from server.character import Character
 
 
 def test_character() -> None:
