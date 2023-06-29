@@ -33,6 +33,9 @@ class Player(BaseModel):
             self.magic += reset_rate
         else:
             self.magic = self.magic_limit
+    
+    def is_dead(self):
+        return self.health == 0
 
     def send(self, msg):
         try:
@@ -45,3 +48,4 @@ class Player(BaseModel):
             return self.socket.recv(data_length).decode('utf-8')
         except socket.error as e:
             raise e
+    
