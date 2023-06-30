@@ -2,9 +2,10 @@ import socket
 import time
 from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen
-from playing_scene import show_playing_screen
+from playing_scene import show_playing_screen, change_playing_status
 from player import Player
 import sys
+
 sys.path.insert(0, '.')
 from server.character import find_character
 from ui import *
@@ -22,7 +23,8 @@ SCENE = "connecting"
 
 you: Player = None
 enemy: Player = None
-characters:list[dict] = []
+characters: list[dict] = []
+
 
 def change_scene(scene):
     global SCENE
@@ -49,6 +51,7 @@ def connect_to_server():
             print(e)
             break
 
+
 def game_stat_receiver():
     while True:
         try:
@@ -63,7 +66,7 @@ def game_stat_receiver():
             break
     print(">> DISCONNECTED")
 
- 
+
 def handle_server_msg(msg: str) -> None:
     global enemy
     print(msg)
@@ -76,15 +79,20 @@ def handle_server_msg(msg: str) -> None:
     elif msg['header'] == 'yourstat':
         you.health = msg['health']
         you.magic = msg['magic']
-    
+
     elif msg['header'] == 'enemystat':
         enemy.health = msg['health']
         enemy.magic = msg['magic']
-    
-    
+        change_playing_status('choosing_move')
+
+    elif msg['header'] == 'endstat':
+        change_playing_status('choosing_move')
+
+
 def extract_characters(text: str) -> list[dict]:
     characters = json.loads(text)
     return characters
+
 
 def start_game(character):
     global you

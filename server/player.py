@@ -1,7 +1,8 @@
 import socket
-from pydantic import BaseModel, validator, Extra
+from pydantic import BaseModel
 from typing import Any
-from character import Character, find_character
+from character import Character
+
 
 class Player(BaseModel):
     socket: Any
@@ -15,7 +16,6 @@ class Player(BaseModel):
     magic: int = 100
     magic_limit: int = 100
 
-        
     def decrease_health(self, value):
         if self.health - value > 0:
             self.health -= value
@@ -27,14 +27,14 @@ class Player(BaseModel):
             self.magic -= value
         else:
             self.magic = 0
-            
+
     def increase_magic(self):
         reset_rate = self.character.magic_reset_rate
         if self.magic + reset_rate < self.magic_limit:
             self.magic += reset_rate
         else:
             self.magic = self.magic_limit
-    
+
     def is_dead(self):
         return self.health == 0
 
@@ -49,4 +49,3 @@ class Player(BaseModel):
             return self.socket.recv(data_length).decode('utf-8')
         except socket.error as e:
             raise e
-    

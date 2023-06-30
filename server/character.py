@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Character(BaseModel):
     name: str
     strike_power: int
@@ -24,9 +25,11 @@ class Character(BaseModel):
             "Special Magic Success Rate": self.special_magic_success_rate
         }
 
+
 def find_character(name):
     for character in characters:
         if character.name == name: return character
+
 
 harry_potter_dict = {
     "name": "Harry Potter",
@@ -81,5 +84,5 @@ dumbledore = Character(**dumbledore_dict)
 voldemort = Character(**voldemort_dict)
 hermione = Character(**hermione_dict)
 characters = [harry_potter, dumbledore, voldemort, hermione]
-characters_dict = [harry_potter_dict, dumbledore_dict, 
+characters_dict = [harry_potter_dict, dumbledore_dict,
                    voldemort_dict, hermione_dict]

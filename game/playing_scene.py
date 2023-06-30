@@ -6,6 +6,11 @@ status = 'choosing_move'
 move_index = 0
 
 
+def change_playing_status(value):
+    global status
+    status = value
+
+
 def draw_move_option(move, x, y, selected=False):
     rect = pygame.Rect(x, y, 240, 40)
     pygame.draw.rect(window(), BLACK, rect, 0 if selected else 2)
@@ -30,7 +35,7 @@ def draw_bars(health, magic, x, y, character_name):
 
 
 def show_playing_screen(events, socket, you, enemy):
-    global move_index, status
+    global move_index
 
     for event in events:
         if event.type == pygame.KEYDOWN:
@@ -40,7 +45,7 @@ def show_playing_screen(events, socket, you, enemy):
                 move_index += 1
             elif event.key == pygame.K_RETURN:
                 socket.sendall(f'move::{moves[move_index]}'.encode('utf-8'))
-                status = 'waiting'
+                change_playing_status('waiting')
 
     draw_bars(you.health, you.magic, 100, 40, you.character['name'])
     draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character['name'])
