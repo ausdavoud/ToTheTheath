@@ -81,6 +81,9 @@ def handle_server_msg(msg: str) -> None:
         you.magic = msg['magic']
         enemy.health = msg['enemy_health']
         enemy.magic = msg['enemy_magic']
+        you.fight_result_str = msg['result_str']
+        change_playing_status("showing_result")
+        time.sleep(1.5)
         change_playing_status('choosing_move')
 
 

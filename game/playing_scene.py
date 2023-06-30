@@ -49,11 +49,14 @@ def show_playing_screen(events, socket, you, enemy):
                 socket.sendall(json.dumps({"header": "move", "move": moves[move_index]}).encode('utf-8'))
                 change_playing_status('waiting')
 
-    draw_bars(you.health, you.magic, 100, 40, you.character['name'])
-    draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character['name'])
-    if status == 'choosing_move':
-        draw_text("Choose Your Move :", 330, 275, BLACK, header_font)
-        for i, move in enumerate(moves):
-            draw_move_option(move, 330, 325 + (i * 52), i == move_index)
-    elif status == 'waiting':
-        draw_text("Waiting for enemy's move ...", 327, 340)
+    if status == "showing_result":
+        draw_center_text(you.fight_result_str)
+    else:
+        draw_bars(you.health, you.magic, 100, 40, you.character['name'])
+        draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character['name'])
+        if status == 'choosing_move':
+            draw_text("Choose Your Move :", 330, 275, BLACK, header_font)
+            for i, move in enumerate(moves):
+                draw_move_option(move, 330, 325 + (i * 52), i == move_index)
+        elif status == 'waiting':
+            draw_text("Waiting for enemy's move ...", 327, 340)
