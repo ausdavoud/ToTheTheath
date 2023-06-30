@@ -74,12 +74,12 @@ def handle_server_msg(msg: str) -> None:
             enemy = Player(character=enemy)
             change_scene('playing')
     elif msg['header'] == 'yourstat':
-        you.character['health'] = msg['health']
-        you.character['magic'] = msg['magic']
+        you.health = msg['health']
+        you.magic = msg['magic']
     
     elif msg['header'] == 'enemystat':
-        enemy.character['health'] = msg['health']
-        enemy.character['magic'] = msg['magic']
+        enemy.health = msg['health']
+        enemy.magic = msg['magic']
     
     
 def extract_characters(text: str) -> list[dict]:
