@@ -42,8 +42,8 @@ def show_playing_screen(events, socket, you, enemy):
                 socket.sendall(f'move::{moves[move_index]}'.encode('utf-8'))
                 status = 'waiting'
 
-    draw_bars(you.health, you.magic, 100, 40, you.character.name)
-    draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character.name)
+    draw_bars(you.health, you.magic, 100, 40, you.character['name'])
+    draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character['name'])
     if status == 'choosing_move':
         draw_text("Choose Your Move :", 330, 275, BLACK, header_font)
         for i, move in enumerate(moves):

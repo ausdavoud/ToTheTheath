@@ -22,7 +22,7 @@ SCENE = "connecting"
 
 you = None
 enemy = None
-
+characters:list[dict] = []
 
 def change_scene(scene):
     global SCENE
@@ -31,11 +31,14 @@ def change_scene(scene):
 
 def connect_to_server():
     global sc
+    global characters
     while True:
         try:
             sc.connect(server_address)
             print(sc.recv(1024).decode('utf-8'))
+            characters = extract_characters(sc.recv(1024).decode('utf-8'))
             change_scene("choosing_character")
+            # start_new_thread(game_stat_receiver, ())
             break
         except ConnectionRefusedError:
             print('[conn refused] -- retrying in 1 second')
@@ -46,14 +49,26 @@ def connect_to_server():
             print(e)
             break
 
-def recv_characters() -> list[dict]:
-    try:
-        msg = sc.recv(100000).decode('utf-8')
-        characters = extract_characters(msg)
-        return characters
-    except Exception as e:
-        print(e)
-        
+def game_stat_receiver():
+    while True:
+        try:
+            msg = sc.recv(1024)
+            if not msg:
+                break
+            else:
+                msg = msg.decode('utf-8')
+                handle_server_msg(msg)
+        except socket.error as e:
+            print(e)
+            break
+    print(">> DISCONNECTED")
+
+ 
+def handle_server_msg(msg: str) -> None:
+    print(msg)
+    ...
+    
+    
 def extract_characters(text: str) -> list[dict]:
     characters = json.loads(text)
     return characters
@@ -66,7 +81,7 @@ def start_game(character):
     def _start():
         global enemy
         try:
-            sc.sendall(f'msg::start_game::{character.name}'.encode('utf-8'))
+            sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
             enemy_character_name = sc.recv(1024).decode('utf-8')
             enemy = find_character(enemy_character_name)
             if enemy:
@@ -84,8 +99,6 @@ def start_game(character):
 def handle_scenes(events):
     match SCENE:
         case 'choosing_character':
-            characters = recv_characters()
-            print(characters[1]['name'])
             show_choosing_character_screen(events, start_game, characters=characters)
         case 'waiting':
             draw_center_text('Waiting for other player ...')

@@ -5,7 +5,7 @@ class Player(BaseModel):
     health: int = 100
     magic: int = 100
     magic_limit: int = 100
-    character: Any
+    character: dict
 
     def decrease_health(self, value):
         if self.health - value > 0:
