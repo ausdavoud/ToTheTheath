@@ -38,7 +38,7 @@ def connect_to_server():
             print(sc.recv(1024).decode('utf-8'))
             characters = extract_characters(sc.recv(1024).decode('utf-8'))
             change_scene("choosing_character")
-            # start_new_thread(game_stat_receiver, ())
+            start_new_thread(game_stat_receiver, ())
             break
         except ConnectionRefusedError:
             print('[conn refused] -- retrying in 1 second')
@@ -88,6 +88,14 @@ def start_game(character):
         global enemy
         try:
             sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
+            # enemy_character_name = sc.recv(1024).decode('utf-8')
+            # enemy = find_character(enemy_character_name)
+            # if enemy:
+            #     enemy = Player(character=enemy)
+            #     change_scene('playing')
+            # else:
+            #     msg = enemy_character_name
+            #     print(msg)
         except socket.error as e:
             print(e)
 
