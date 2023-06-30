@@ -14,26 +14,17 @@ class Fight(BaseModel):
     def send_stat(player1, player2) -> None:
         msg = {"health": player1.health,
                "magic": player1.magic,
-               "header": 'yourstat'}
+               "enemy_health": player2.health,
+               "enemy_magic": player2.magic,
+               "header": 'change_stat'}
         player1.send(json.dumps(msg))
 
         msg = {"health": player2.health,
                "magic": player2.magic,
-               "header": 'yourstat'}
+               "enemy_health": player1.health,
+               "enemy_magic": player1.magic,
+               "header": 'change_stat'}
         player2.send(json.dumps(msg))
-
-        msg = {"health": player1.health,
-               "magic": player1.magic,
-               "header": 'enemystat'}
-        player2.send(json.dumps(msg))
-
-        msg = {"health": player2.health,
-               "magic": player2.magic,
-               "header": 'enemystat'}
-        player1.send(json.dumps(msg) + "\n")
-
-        player1.send(json.dumps({"header": "endstat"}) + "\n")
-        player2.send(json.dumps({"header": "endstat"}) + "\n")
 
     def strike(self, doer: int) -> tuple:
         players: list[Player] = [self.player1, self.player2]

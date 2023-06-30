@@ -76,16 +76,11 @@ def handle_server_msg(msg: str) -> None:
         if enemy:
             enemy = Player(character=enemy)
             change_scene('playing')
-    elif msg['header'] == 'yourstat':
+    elif msg['header'] == 'change_stat':
         you.health = msg['health']
         you.magic = msg['magic']
-
-    elif msg['header'] == 'enemystat':
-        enemy.health = msg['health']
-        enemy.magic = msg['magic']
-        change_playing_status('choosing_move')
-
-    elif msg['header'] == 'endstat':
+        enemy.health = msg['enemy_health']
+        enemy.magic = msg['enemy_magic']
         change_playing_status('choosing_move')
 
 
