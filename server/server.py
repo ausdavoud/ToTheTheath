@@ -32,7 +32,7 @@ def process_move(player: Player, move: str):
         player, enemy = _fight.fight()
 
         # End of magic
-        player.current_move = move
+        player.current_move = None
         enemy.current_move = None
 
 
@@ -50,18 +50,18 @@ def start_match(player1, player2):
 
 def handle_player_msg(msg, player: Player):
     global waiting_player
-    msg_parts = msg.split("::")
-    if len(msg_parts) > 2 and msg_parts[0] == 'msg' and msg_parts[1] == "start_game":
-        player.name = msg_parts[2]
-        player.character = find_character(msg_parts[2])
+    msg = json.loads(msg)
+    if msg['header'] == 'start_game':
+        player.name = msg['character_name']
+        player.character = find_character(msg['character_name'])
 
         if waiting_player is None:
             waiting_player = player
         else:
             start_match(waiting_player, player)
             waiting_player = None
-    elif len(msg_parts) > 1 and msg_parts[0] == 'move':
-        process_move(player, msg_parts[1])
+    elif msg['header'] == 'move':
+        process_move(player, msg['move'])
     else:
         print(msg)
 

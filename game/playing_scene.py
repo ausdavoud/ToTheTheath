@@ -1,3 +1,5 @@
+import json
+
 from ui import *
 
 moves = ['strike', 'defence', 'magic']
@@ -44,7 +46,7 @@ def show_playing_screen(events, socket, you, enemy):
             elif event.key == pygame.K_DOWN and move_index < len(moves) - 1:
                 move_index += 1
             elif event.key == pygame.K_RETURN:
-                socket.sendall(f'move::{moves[move_index]}'.encode('utf-8'))
+                socket.sendall(json.dumps({"header": "move", "move": moves[move_index]}).encode('utf-8'))
                 change_playing_status('waiting')
 
     draw_bars(you.health, you.magic, 100, 40, you.character['name'])

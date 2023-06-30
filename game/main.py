@@ -94,7 +94,7 @@ def start_game(character):
     change_scene('waiting')
     you = Player(character=character)
     try:
-        sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
+        sc.sendall(json.dumps({"header": "start_game", "character_name": character['name']}).encode('utf-8'))
     except socket.error as e:
         print(e)
 
