@@ -28,7 +28,7 @@ def find_character(name):
     for character in characters:
         if character.name == name: return character
 
-harry_potter = {
+harry_potter_dict = {
     "name": "Harry Potter",
     "strike_power": 9,
     "magic_power": 14,
@@ -40,7 +40,7 @@ harry_potter = {
     "special_magic_success_rate": 50
 }
 
-dumbledore = {
+dumbledore_dict = {
     "name": "Dumbledore",
     "strike_power": 7,
     "magic_power": 17,
@@ -52,7 +52,7 @@ dumbledore = {
     "special_magic_success_rate": 49
 }
 
-voldemort = {
+voldemort_dict = {
     "name": "Voldemort",
     "strike_power": 10,
     "magic_power": 16,
@@ -64,7 +64,7 @@ voldemort = {
     "special_magic_success_rate": 42
 }
 
-hermione = {
+hermione_dict = {
     "name": "Hermione",
     "strike_power": 10,
     "magic_power": 15,
@@ -76,10 +76,10 @@ hermione = {
     "special_magic_success_rate": 50
 }
 
-harry_potter = Character(**harry_potter)
-dumbledore = Character(**dumbledore)
-voldemort = Character(**voldemort)
-hermione = Character(**hermione)
+harry_potter = Character(**harry_potter_dict)
+dumbledore = Character(**dumbledore_dict)
+voldemort = Character(**voldemort_dict)
+hermione = Character(**hermione_dict)
 characters = [harry_potter, dumbledore, voldemort, hermione]
-characters_dict = [harry_potter.dict(), dumbledore.dict(), 
-                   voldemort.dict(), hermione.dict()]
+characters_dict = [harry_potter_dict, dumbledore_dict, 
+                   voldemort_dict, hermione_dict]

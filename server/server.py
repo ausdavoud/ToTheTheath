@@ -3,6 +3,7 @@ from _thread import start_new_thread
 from player import Player
 from fight import Fight
 from character import characters_dict
+import json
 
 ADDR, PORT = "", 4000
 soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -83,7 +84,7 @@ def start_server():
         player = Player(socket=player, address=addr)
         print(">> NEW CONNECTION:", addr)
         player.send("Hello from server")
-        player.send(characters_dict)
+        player.send(json.dumps(characters_dict))
         start_new_thread(handle_player_connection, (player,))
 
 

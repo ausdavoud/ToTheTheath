@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, '.')
 from server.character import find_character
 from ui import *
+import json
 
 sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -45,6 +46,17 @@ def connect_to_server():
             print(e)
             break
 
+def recv_characters() -> list[dict]:
+    try:
+        msg = sc.recv(100000).decode('utf-8')
+        characters = extract_characters(msg)
+        return characters
+    except Exception as e:
+        print(e)
+        
+def extract_characters(text: str) -> list[dict]:
+    characters = json.loads(text)
+    return characters
 
 def start_game(character):
     global you
@@ -72,7 +84,9 @@ def start_game(character):
 def handle_scenes(events):
     match SCENE:
         case 'choosing_character':
-            show_choosing_character_screen(events, start_game)
+            characters = recv_characters()
+            print(characters[1]['name'])
+            show_choosing_character_screen(events, start_game, characters=characters)
         case 'waiting':
             draw_center_text('Waiting for other player ...')
         case 'connecting':

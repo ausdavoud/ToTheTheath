@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from player import Player
 from random import choice
-from socket import socket
 
 class Fight(BaseModel):
     player1: Player
@@ -9,7 +8,7 @@ class Fight(BaseModel):
     player1_move: str
     player2_move: str 
     
-    def strike(self, doer: int) -> list[Player]:
+    def strike(self, doer: int) -> tuple[Player]:
         players: list[Player] = [self.player1, self.player2]
 
         new_player1 = players[doer]
@@ -25,8 +24,9 @@ class Fight(BaseModel):
         
         return new_player1, new_player2
         
-    def magic(self, doer: int) -> list[Player]:
+    def magic(self, doer: int) -> tuple[Player]:
         players: list[Player] = [self.player1, self.player2]
+        doer = bool(doer)
         new_player1 = players[doer]
         new_player2 = players[not doer]
         
@@ -36,6 +36,7 @@ class Fight(BaseModel):
         success = choice([1, 0], p=[success_rate, 1 - success_rate])
         messages = {0: 'could not hit the enemy.', 1: f'hit the enemy by {magic_power}!'}
         
+        new_player1.decrease_magic(magic_power)
         new_player2.decrease_health(success * magic_power)
         new_player1.send(f'You {messages[success]}')
         
@@ -57,6 +58,7 @@ class Fight(BaseModel):
             msg = 'Both players defended!'
             self.player1.send(msg)
             self.player2.send(msg)
+            #CHECK
             
         elif self.player1_move == 'defence':
             if Fight.is_defence_successful(self.player1):
@@ -66,7 +68,8 @@ class Fight(BaseModel):
                     self.player1.increase_magic(magic_reset_rate)
                     print(f'{magic_reset_rate} added to your magic!')
             else:
-                self.player2, self.player1 = moves[self.player2_move](1)      
+                self.player2, self.player1 = moves[self.player2_move](1)     
+                 
         elif self.player2_move == 'defence':
             if Fight.is_defence_successful(self.player2):
                 print('Player 2 defended!')
@@ -77,4 +80,7 @@ class Fight(BaseModel):
             else:
                 self.player1, self.player2 = moves[self.player1_move](0)
                 
+        else:
+            self.player1, self.player2 = moves[self.player1_move](0)
+            self.player2, self.player1 = moves[self.player2_move](1)
         return self.player1, self.player2

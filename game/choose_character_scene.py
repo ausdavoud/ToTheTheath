@@ -8,16 +8,17 @@ current_index = 0
 def draw_character_option(character, x, y, selected=False):
     rect = pygame.Rect(x, y, 300, 48)
     pygame.draw.rect(pygame.display.get_surface(), BLACK, rect, 0 if selected else 2)
-    draw_text(character.name, x + 16, y + 16, WHITE if selected else BLACK)
+    draw_text(character['name'], x + 16, y + 16, WHITE if selected else BLACK)
 
-def show_stats(character):
+def show_stats(character: dict):
     draw_text("Stats -------------", 520, 100, BLACK, header_font)
-    stats = character.get_stats()
+    # stats = character.get_stats()
+    stats = character
     for i, stat in enumerate(stats.keys()):
-        draw_text(f"{stat.split('_').capatilized()} : {stats[stat]}", 520, 100 + 48 + (25 + 8) * i)
+        draw_text(f"{' '.join(stat.split('_')).capitalize()} : {stats[stat]}", 520, 100 + 48 + (25 + 8) * i)
 
 
-def show_choosing_character_screen(events, enter_function, characters):
+def show_choosing_character_screen(events, enter_function, characters: list[dict]):
     global current_index
 
     for event in events:
