@@ -65,8 +65,14 @@ def game_stat_receiver():
 
  
 def handle_server_msg(msg: str) -> None:
-    print(msg)
-    ...
+    # enemy_character_name = sc.recv(1024).decode('utf-8')
+    #         enemy = find_character(enemy_character_name)
+    #         if enemy:
+    #             enemy = Player(character=enemy)
+    #             change_scene('playing')
+    #         else:
+    #             msg = enemy_character_name
+                print(msg)
     
     
 def extract_characters(text: str) -> list[dict]:
@@ -82,14 +88,6 @@ def start_game(character):
         global enemy
         try:
             sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
-            enemy_character_name = sc.recv(1024).decode('utf-8')
-            enemy = find_character(enemy_character_name)
-            if enemy:
-                enemy = Player(character=enemy)
-                change_scene('playing')
-            else:
-                msg = enemy_character_name
-                print(msg)
         except socket.error as e:
             print(e)
 
