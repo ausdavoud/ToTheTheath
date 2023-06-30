@@ -1,7 +1,7 @@
 import socket
-from pydantic import BaseModel
+from pydantic import BaseModel, validator, Extra
 from typing import Any
-from character import Character
+from character import Character, find_character
 
 class Player(BaseModel):
     socket: Any
@@ -9,12 +9,13 @@ class Player(BaseModel):
     current_move: str = None
     match_id: int = None
     index: int = None
-    character = Character
+    character: Character = None
     name: str = None
     health: int = 100
     magic: int = 100
     magic_limit: int = 100
 
+        
     def decrease_health(self, value):
         if self.health - value > 0:
             self.health -= value

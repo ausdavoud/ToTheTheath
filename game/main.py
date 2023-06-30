@@ -20,8 +20,8 @@ server_address = ('127.0.0.1', 4000)
 FPS = 60
 SCENE = "connecting"
 
-you = None
-enemy = None
+you: Player = None
+enemy: Player = None
 characters:list[dict] = []
 
 def change_scene(scene):
@@ -65,14 +65,21 @@ def game_stat_receiver():
 
  
 def handle_server_msg(msg: str) -> None:
-    # enemy_character_name = sc.recv(1024).decode('utf-8')
-    #         enemy = find_character(enemy_character_name)
-    #         if enemy:
-    #             enemy = Player(character=enemy)
-    #             change_scene('playing')
-    #         else:
-    #             msg = enemy_character_name
-                print(msg)
+    global enemy
+    print(msg)
+    msg = json.loads(msg)
+    if msg['header'] == 'namechosed':
+        enemy = find_character(msg['name'])
+        if enemy:
+            enemy = Player(character=enemy)
+            change_scene('playing')
+    elif msg['header'] == 'yourstat':
+        you.character['health'] = msg['health']
+        you.character['magic'] = msg['magic']
+    
+    elif msg['header'] == 'enemystat':
+        enemy.character['health'] = msg['health']
+        enemy.character['magic'] = msg['magic']
     
     
 def extract_characters(text: str) -> list[dict]:
@@ -83,23 +90,10 @@ def start_game(character):
     global you
     change_scene('waiting')
     you = Player(character=character)
-
-    def _start():
-        global enemy
-        try:
-            sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
-            # enemy_character_name = sc.recv(1024).decode('utf-8')
-            # enemy = find_character(enemy_character_name)
-            # if enemy:
-            #     enemy = Player(character=enemy)
-            #     change_scene('playing')
-            # else:
-            #     msg = enemy_character_name
-            #     print(msg)
-        except socket.error as e:
-            print(e)
-
-    start_new_thread(_start, ())
+    try:
+        sc.sendall(f'msg::start_game::{character["name"]}'.encode('utf-8'))
+    except socket.error as e:
+        print(e)
 
 
 def handle_scenes(events):

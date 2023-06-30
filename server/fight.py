@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from player import Player
-from random import choice
+from random import choices
+import json
 
 class Fight(BaseModel):
     player1: Player
@@ -8,6 +9,27 @@ class Fight(BaseModel):
     player1_move: str
     player2_move: str 
     
+    def send_stat(self, player1, player2) -> None:
+        msg = {"health": player1.health,
+               "magic": player1.magic,
+               "header": 'yourstat'}
+        player1.send(json.dumps(msg))
+        
+        msg = {"health": player2.health,
+               "magic": player2.magic,
+               "header": 'yourstat'}
+        player2.send(json.dumps(msg))
+        
+        msg = {"health": player1.health,
+               "magic": player1.magic,
+               "header": 'enemystat'}
+        player2.send(json.dumps(msg))
+        
+        msg = {"health": player2.health,
+               "magic": player2.magic,
+               "header": 'enemystat'}
+        player1.send(json.dumps(msg))
+        
     def strike(self, doer: int) -> tuple[Player]:
         players: list[Player] = [self.player1, self.player2]
 
@@ -16,11 +38,9 @@ class Fight(BaseModel):
         
         strike_power = new_player1.character.strike_power
         success_rate = new_player1.character.strike_rate/100
-        success = choice([1, 0], p=[success_rate, 1 - success_rate])
-        messages = {0: 'could not hit the enemy.', 1: f'hit the enemy by {strike_power}!'}
-        
+        success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
+
         new_player2.decrease_health(success * strike_power)
-        new_player1.send(f'You {messages[success]}')
         
         return new_player1, new_player2
         
@@ -33,19 +53,19 @@ class Fight(BaseModel):
         magic_power  = new_player1.character.magic_power
         success_rate = new_player1.character.magic_rate / 100
         
-        success = choice([1, 0], p=[success_rate, 1 - success_rate])
-        messages = {0: 'could not hit the enemy.', 1: f'hit the enemy by {magic_power}!'}
+        success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
         
         new_player1.decrease_magic(magic_power)
         new_player2.decrease_health(success * magic_power)
-        new_player1.send(f'You {messages[success]}')
+        
+
         
         return new_player1, new_player2
         
     @staticmethod
     def is_defence_successful(player: Player) -> bool:
         success_rate = player.character.defence_rate / 100
-        success = choice([1, 0], p=[success_rate, 1 - success_rate])
+        success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
         return bool(success)
     
     def fight(self) -> list[Player]:
@@ -55,10 +75,8 @@ class Fight(BaseModel):
                 }
 
         if self.player1_move == 'defence' and self.player2_move == 'defence':
-            msg = 'Both players defended!'
-            self.player1.send(msg)
-            self.player2.send(msg)
-            #CHECK
+            print('Both defended!')
+            ...
             
         elif self.player1_move == 'defence':
             if Fight.is_defence_successful(self.player1):
@@ -83,4 +101,6 @@ class Fight(BaseModel):
         else:
             self.player1, self.player2 = moves[self.player1_move](0)
             self.player2, self.player1 = moves[self.player2_move](1)
+        
+        self.send_stat(self.player1, self.player2)
         return self.player1, self.player2
