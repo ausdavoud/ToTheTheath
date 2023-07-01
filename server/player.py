@@ -18,13 +18,13 @@ class Player(BaseModel):
     fight_result_str: str = ""
 
     def decrease_health(self, value):
-        if self.health - value > 0:
+        if self.health - value >= 0:
             self.health -= value
         else:
-            self.health = 0
+            self.health == 0
 
     def decrease_magic(self, value) -> bool:
-        if self.magic - value > 0:
+        if self.magic - value >= 0:
             self.magic -= value
             return True
         return False

@@ -28,7 +28,16 @@ def process_move(player: Player, move: str):
         _fight = Fight(player1=player, player2=enemy,
                        player1_move=player.current_move,
                        player2_move=enemy.current_move)
-        _fight.fight()
+        if (winner := _fight.fight()) != None:
+            msg = {'result': 'win',
+                   'header': 'end'}
+            winner.send(json.dumps(msg))
+            
+            loser_index = int(not bool(winner.index))
+            loser: Player = running_matches[winner.match_id][loser_index]
+            msg = {'result': 'lose',
+                   'header': 'end'}
+            loser.send(json.dumps(msg))
 
         player.current_move = None
         enemy.current_move = None

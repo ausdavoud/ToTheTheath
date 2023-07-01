@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from player import Player
-from random import choices
+from random import choices, choice
 import json
 
 
@@ -110,6 +110,14 @@ class Fight(BaseModel):
         else:
             moves[self.player1_move](0)
             moves[self.player2_move](1)
+        
+        if self.player1.is_dead() and self.player2.is_dead():
+            return choice([self.player1, self.player2])
+        elif self.player1.is_dead():
+            return self.player2
+        elif self.player2.is_dead():
+            return self.player1
+            
 
         self.send_stat(self.player1, self.player2)
         self.player1.fight_result_str = ""

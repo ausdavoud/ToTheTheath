@@ -3,6 +3,7 @@ import time
 from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen
 from playing_scene import show_playing_screen, change_playing_status
+from ending_scene import show_ending_scene
 from player import Player
 from ui import *
 import json
@@ -16,6 +17,7 @@ pygame.display.set_caption('To The Theath')
 server_address = ('127.0.0.1', 4000)
 FPS = 60
 SCENE = "connecting"
+MATCH_RESULT = ''
 
 you: Player = None
 enemy: Player = None
@@ -81,14 +83,14 @@ def handle_server_msg(msg: str) -> None:
         change_playing_status("showing_result")
         time.sleep(1.5)
         change_playing_status('choosing_move')
-
-def are_you_dead() -> bool:
-    return you.health == 0
+    elif msg['header'] == 'end':
+        global MATCH_RESULT
+        MATCH_RESULT = msg['result']
+        change_scene('ending')
 
 def find_character(name):
     for character in characters:
         if character['name'] == name: return character
-
 
 def extract_characters(text: str) -> list[dict]:
     characters = json.loads(text)
@@ -117,6 +119,9 @@ def handle_scenes(events):
             show_playing_screen(events, sc, you, enemy)
         case 'connection_error':
             draw_center_text("Connection Error !!")
+        case 'ending':
+            show_ending_scene(MATCH_RESULT)
+            
 
 
 def main():
