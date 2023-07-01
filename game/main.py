@@ -82,6 +82,8 @@ def handle_server_msg(msg: str) -> None:
         time.sleep(1.5)
         change_playing_status('choosing_move')
 
+def are_you_dead() -> bool:
+    return you.health == 0
 
 def find_character(name):
     for character in characters:

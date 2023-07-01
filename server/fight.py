@@ -74,7 +74,7 @@ class Fight(BaseModel):
         success_rate = player.character.defence_rate / 100
         success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
         return bool(success)
-
+    
     def fight(self):
         moves = {
             'strike': self.strike,
