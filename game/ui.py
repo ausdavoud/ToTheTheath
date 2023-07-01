@@ -33,7 +33,7 @@ def draw_center_text_list(text_list: list, text_color=BLACK, font=header_font):
         text_rect = font.get_rect(text)
         height += text_rect.height
     height += (len(text_list) - 1) * 24
-    y = (window().get_height() + height) / 2
+    y = (window().get_height() - height) / 2
     for i in range(len(text_list)):
         text_rect = font.get_rect(text_list[i])
         x = (window().get_width() - text_rect.width) / 2
