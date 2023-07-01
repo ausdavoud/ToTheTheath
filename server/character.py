@@ -49,7 +49,7 @@ harry_potter_dict = {
 
 dumbledore_dict = {
     "name": "Dumbledore",
-    "strike_power": 7,
+    "strike_power": 38,
     "magic_power": 17,
     "magic_rate": 65,
     "strike_rate": 70,
@@ -77,7 +77,7 @@ voldemort_dict = {
 
 hermione_dict = {
     "name": "Hermione",
-    "strike_power": 10,
+    "strike_power": 40,
     "magic_power": 15,
     "magic_rate": 60,
     "strike_rate": 50,

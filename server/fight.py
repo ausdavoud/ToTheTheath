@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from player import Player
 from random import choices, choice
+from _log import Log
 import json
 
 
@@ -9,6 +10,7 @@ class Fight(BaseModel):
     player2: Player
     player1_move: str
     player2_move: str
+    logger: Log
 
     @staticmethod
     def send_stat(player1, player2) -> None:
@@ -45,6 +47,8 @@ class Fight(BaseModel):
         else:
             new_player1.fight_result.append("You could not strike the enemy")
             new_player2.fight_result.append("Enemy could not strike you")
+            
+        return bool(success)
 
     def magic(self, doer: int) -> None:
         players: list[Player] = [self.player1, self.player2]
@@ -68,6 +72,8 @@ class Fight(BaseModel):
         else:
             new_player1.fight_result.append("You could not spell the enemy")
             new_player2.fight_result.append("Enemy could not spell you")
+        
+        return bool(success)
 
     @staticmethod
     def is_defence_successful(player: Player) -> bool:
@@ -84,38 +90,62 @@ class Fight(BaseModel):
         if self.player1_move == 'defence' and self.player2_move == 'defence':
             self.player1.fight_result.append("Both defended")
             self.player2.fight_result.append("Both defended")
-
+            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
+                                      player1_move='defence', player2_move='defence',
+                                      player1_move_result=True, player2_move_result=True,
+                                      player1_health=self.player1.health, player2_health=self.player2.health,
+                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
         elif self.player1_move == 'defence':
-            if Fight.is_defence_successful(self.player1):
+            if defence_success := Fight.is_defence_successful(self.player1):
+                move_success = False
                 self.player1.fight_result.append("You defended the enemy's attack")
                 self.player2.fight_result.append("Enemy defended your attack")
                 if self.player2_move == 'magic':
                     self.player1.increase_magic()
                     self.player2.decrease_magic()
             else:
-                moves[self.player2_move](1)
+                move_success = moves[self.player2_move](1)
+            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
+                                      player1_move='defence', player2_move=self.player2_move,
+                                      player1_move_result=defence_success, player2_move_result=move_success,
+                                      player1_health=self.player1.health, player2_health=self.player2.health,
+                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
 
         elif self.player2_move == 'defence':
-            if Fight.is_defence_successful(self.player2):
+            if defence_success := Fight.is_defence_successful(self.player2):
+                move_success = False
                 self.player2.fight_result.append("You defended enemy's attack")
                 self.player1.fight_result.append("Enemy defended your attack")
                 if self.player1_move == 'magic':
                     self.player2.increase_magic()
                     self.player1.decrease_magic()
             else:
-                moves[self.player1_move](0)
+                move_success = moves[self.player1_move](0)
+            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
+                                      player1_move=self.player1_move, player2_move='defence',
+                                      player1_move_result=move_success, player2_move_result=defence_success,
+                                      player1_health=self.player1.health, player2_health=self.player2.health,
+                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
 
         else:
-            moves[self.player1_move](0)
-            moves[self.player2_move](1)
-        
+            player1_move_success = moves[self.player1_move](0)
+            player2_move_success = moves[self.player2_move](1)
+            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
+                                      player1_move=self.player1_move, player2_move=self.player2_move,
+                                      player1_move_result=player1_move_success, player2_move_result=player2_move_success,
+                                      player1_health=self.player1.health, player2_health=self.player2.health,
+                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
+
+        winner: Player = None
         if self.player1.is_dead() and self.player2.is_dead():
-            return choice([self.player1, self.player2])
+            winner = choice([self.player1, self.player2])
         elif self.player1.is_dead():
-            return self.player2
+            winner = self.player2
         elif self.player2.is_dead():
-            return self.player1
-            
+            winner = self.player1
+        if winner is not None:
+            self.logger.finish_logging(winner_IP=winner.address)
+            return winner
 
         self.send_stat(self.player1, self.player2)
         self.player1.fight_result.clear()

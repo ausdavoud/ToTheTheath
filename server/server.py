@@ -4,7 +4,9 @@ from player import Player
 from fight import Fight
 from character import characters_dict, find_character
 import json
+from _log import Log
 
+logger: Log
 ADDR, PORT = "", 4000
 soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -26,8 +28,8 @@ def process_move(player: Player, move: str):
         player.current_move = move
 
         _fight = Fight(player1=player, player2=enemy,
-                       player1_move=player.current_move,
-                       player2_move=enemy.current_move)
+                    player1_move=player.current_move,
+                    player2_move=enemy.current_move, logger=logger)
         if (winner := _fight.fight()) != None:
             msg = {'result': 'win',
                    'header': 'end'}
@@ -43,7 +45,9 @@ def process_move(player: Player, move: str):
         enemy.current_move = None
 
 
-def start_match(player1, player2):
+def start_match(player1: Player, player2: Player):
+    global logger
+    
     player1.match_id = len(running_matches)
     player1.index = 0
     player2.match_id = len(running_matches)
@@ -53,7 +57,9 @@ def start_match(player1, player2):
                              "header": "namechosed"}))
     player2.send(json.dumps({"name": player1.name,
                              "header": "namechosed"}))
-
+    logger = Log(player1_IP=player1.address, player2_IP=player2.address,
+                 player1_character=player1.name, player2_character=player2.name)
+    logger.start_logging()
 
 def handle_player_msg(msg, player: Player):
     global waiting_player
