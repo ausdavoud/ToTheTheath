@@ -21,7 +21,7 @@ class Player(BaseModel):
         if self.health - value >= 0:
             self.health -= value
         else:
-            self.health == 0
+            self.health = 0
 
     def decrease_magic(self) -> bool:
         value = self.character.magic_power

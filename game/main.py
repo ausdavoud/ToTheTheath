@@ -2,7 +2,7 @@ import socket
 import time
 from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen
-from playing_scene import show_playing_screen, change_playing_status
+from playing_scene import show_playing_screen, change_playing_status, activate_move, disable_move, disabled_moves
 from ending_scene import show_ending_scene
 from player import Player
 from ui import *
@@ -26,6 +26,7 @@ characters: list[dict] = []
 
 def change_scene(scene):
     global SCENE
+    time.sleep(0.1)
     SCENE = scene
 
 
@@ -35,7 +36,6 @@ def connect_to_server():
     while True:
         try:
             sc.connect(server_address)
-            print(sc.recv(1024).decode('utf-8'))
             characters = extract_characters(sc.recv(1024).decode('utf-8'))
             change_scene("choosing_character")
             start_new_thread(game_stat_receiver, ())
@@ -77,6 +77,13 @@ def handle_server_msg(msg: str) -> None:
     elif msg['header'] == 'change_stat':
         you.health = msg['health']
         you.magic = msg['magic']
+
+        magic_power = you.character['magic_power']
+        if you.magic < magic_power and 'magic' not in disabled_moves:
+            disable_move('magic')
+        elif you.magic > magic_power and 'magic' in disabled_moves:
+            activate_move('magic')
+
         enemy.health = msg['enemy_health']
         enemy.magic = msg['enemy_magic']
         you.fight_result = msg['fight_result']
@@ -88,9 +95,11 @@ def handle_server_msg(msg: str) -> None:
         MATCH_RESULT = msg['result']
         change_scene('ending')
 
+
 def find_character(name):
     for character in characters:
         if character['name'] == name: return character
+
 
 def extract_characters(text: str) -> list[dict]:
     characters = json.loads(text)
@@ -107,6 +116,18 @@ def start_game(character):
         print(e)
 
 
+def start_new_game():
+    global you, enemy, MATCH_RESULT, sc
+    you = None
+    enemy = None
+    characters.clear()
+    change_scene('connecting')
+    MATCH_RESULT = ''
+    change_playing_status('choosing_move')
+    sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    main()
+
+
 def handle_scenes(events):
     match SCENE:
         case 'choosing_character':
@@ -120,8 +141,7 @@ def handle_scenes(events):
         case 'connection_error':
             draw_center_text("Connection Error !!")
         case 'ending':
-            show_ending_scene(MATCH_RESULT)
-
+            show_ending_scene(MATCH_RESULT, events, start_new_game)
 
 
 def main():

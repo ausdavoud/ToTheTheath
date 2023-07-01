@@ -93,7 +93,6 @@ def start_server():
         player, addr = soc.accept()
         player = Player(socket=player, address=addr)
         print(">> NEW CONNECTION:", addr)
-        player.send("Hello from server")
         player.send(json.dumps(characters_dict))
         start_new_thread(handle_player_connection, (player,))
 

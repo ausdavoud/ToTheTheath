@@ -3,6 +3,7 @@ import json
 from ui import *
 
 moves = ['strike', 'defence', 'magic']
+disabled_moves = []
 
 status = 'choosing_move'
 move_index = 0
@@ -13,12 +14,27 @@ def change_playing_status(value):
     status = value
 
 
-def draw_move_option(move, x, y, selected=False):
+def disable_move(move: str):
+    global move_index
+    moves.remove(move)
+    disabled_moves.append(move)
+    move_index = 0
+
+
+def activate_move(move: str):
+    global move_index
+    disabled_moves.remove(move)
+    moves.append(move)
+    move_index = 0
+
+
+def draw_move_option(move, x, y, selected=False, disabled=False):
+    color = GRAY if disabled else BLACK
     rect = pygame.Rect(x, y, 240, 40)
-    pygame.draw.rect(window(), BLACK, rect, 0 if selected else 2)
+    pygame.draw.rect(window(), color, rect, 0 if selected else 2)
     move = str(move)
     move = move[0].upper() + move[1:]
-    draw_text(move, x + 8, y + 12, WHITE if selected else BLACK)
+    draw_text(move, x + 8, y + 12, WHITE if selected else color)
 
 
 def draw_bars(health, magic, x, y, character_name):
@@ -58,5 +74,7 @@ def show_playing_screen(events, socket, you, enemy):
             draw_text("Choose Your Move :", 330, 275, BLACK, header_font)
             for i, move in enumerate(moves):
                 draw_move_option(move, 330, 325 + (i * 52), i == move_index)
+            for i, move in enumerate(disabled_moves):
+                draw_move_option(move, 330, 325 + ((i + len(moves)) * 52), False, True)
         elif status == 'waiting':
             draw_text("Waiting for enemy's move ...", 327, 340)
