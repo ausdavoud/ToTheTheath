@@ -3,7 +3,7 @@ import pygame.freetype
 import os
 
 pygame.init()
-font_path = os.path.join('game', 'lexend.ttf')
+font_path = os.path.join(os.path.dirname(__file__), 'lexend.ttf')
 text_font = pygame.freetype.Font(font_path, 18)
 header_font = pygame.freetype.Font(font_path, 22)
 
