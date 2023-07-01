@@ -15,7 +15,7 @@ class Player(BaseModel):
     health: int = 100
     magic: int = 100
     magic_limit: int = 100
-    fight_result_str: str = ""
+    fight_result: list[str] = []
 
     def decrease_health(self, value):
         if self.health - value >= 0:
@@ -23,7 +23,8 @@ class Player(BaseModel):
         else:
             self.health == 0
 
-    def decrease_magic(self, value) -> bool:
+    def decrease_magic(self) -> bool:
+        value = self.character.magic_power
         if self.magic - value >= 0:
             self.magic -= value
             return True

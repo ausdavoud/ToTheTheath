@@ -49,7 +49,7 @@ dumbledore_dict = {
     "magic_power": 17,
     "magic_rate": 65,
     "strike_rate": 70,
-    "defence_rate": 80,
+    "defence_rate": 55,
     "magic_reset_rate": 5,
     "special_magic": 37,
     "special_magic_success_rate": 49

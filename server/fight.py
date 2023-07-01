@@ -32,7 +32,7 @@ class Fight(BaseModel):
         players: list[Player] = [self.player1, self.player2]
 
         new_player1 = players[doer]
-        new_player2 = players[not doer]
+        new_player2 = players[int(not bool(doer))]
 
         strike_power = new_player1.character.strike_power
         success_rate = new_player1.character.strike_rate / 100
@@ -40,34 +40,34 @@ class Fight(BaseModel):
 
         new_player2.decrease_health(success * strike_power)
         if success:
-            new_player1.fight_result_str = "You striked the enemy"
-            new_player2.fight_result_str = "Enemy striked You"
+            new_player1.fight_result.append("You striked the enemy")
+            new_player2.fight_result.append("Enemy striked You")
         else:
-            new_player1.fight_result_str = "Enemy striked you"
-            new_player2.fight_result_str = "You striked the enemy"
+            new_player1.fight_result.append("You could not strike the enemy")
+            new_player2.fight_result.append("Enemy could not strike you")
 
     def magic(self, doer: int) -> None:
         players: list[Player] = [self.player1, self.player2]
-        doer = bool(doer)
+
         new_player1 = players[doer]
-        new_player2 = players[not doer]
+        new_player2 = players[int(not bool(doer))]
 
         magic_power = new_player1.character.magic_power
         success_rate = new_player1.character.magic_rate / 100
 
         success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
 
-        if new_player1.decrease_magic(magic_power):
+        if new_player1.decrease_magic():
             new_player2.decrease_health(success * magic_power)
         else:
-            new_player1.fight_result_str = 'Your magic is not enough'
+            new_player1.fight_result.append('Your magic is not enough')
 
         if success:
-            new_player1.fight_result_str = "You spelled the enemy"
-            new_player2.fight_result_str = "Enemy spelled you"
+            new_player1.fight_result.append("You spelled the enemy")
+            new_player2.fight_result.append("Enemy spelled you")
         else:
-            new_player1.fight_result_str = "Enemy spelled you"
-            new_player2.fight_result_str = "You spelled the enemy"
+            new_player1.fight_result.append("You could not spell the enemy")
+            new_player2.fight_result.append("Enemy could not spell you")
 
     @staticmethod
     def is_defence_successful(player: Player) -> bool:
@@ -82,28 +82,26 @@ class Fight(BaseModel):
         }
 
         if self.player1_move == 'defence' and self.player2_move == 'defence':
-            self.player1.fight_result_str = "Both defended"
-            self.player2.fight_result_str = "Both defended"
+            self.player1.fight_result.append("Both defended")
+            self.player2.fight_result.append("Both defended")
 
         elif self.player1_move == 'defence':
             if Fight.is_defence_successful(self.player1):
-                self.player1.fight_result_str = "You defended the enemy's attack"
-                self.player2.fight_result_str = "Enemy defended your attack"
+                self.player1.fight_result.append("You defended the enemy's attack")
+                self.player2.fight_result.append("Enemy defended your attack")
                 if self.player2_move == 'magic':
-                    magic_reset_rate = self.player1.character.magic_reset_rate
                     self.player1.increase_magic()
-                    print(f'{magic_reset_rate} added to your magic!')
+                    self.player2.decrease_magic()
             else:
                 moves[self.player2_move](1)
 
         elif self.player2_move == 'defence':
             if Fight.is_defence_successful(self.player2):
-                self.player2.fight_result_str = "You defended enemy's attack"
-                self.player1.fight_result_str = "Enemy defended your attack"
+                self.player2.fight_result.append("You defended enemy's attack")
+                self.player1.fight_result.append("Enemy defended your attack")
                 if self.player1_move == 'magic':
-                    magic_reset_rate = self.player2.character.magic_reset_rate
                     self.player2.increase_magic()
-                    print(f'{magic_reset_rate} added to your magic!')
+                    self.player1.decrease_magic()
             else:
                 moves[self.player1_move](0)
 
@@ -120,5 +118,5 @@ class Fight(BaseModel):
             
 
         self.send_stat(self.player1, self.player2)
-        self.player1.fight_result_str = ""
-        self.player2.fight_result_str = ""
+        self.player1.fight_result.clear()
+        self.player2.fight_result.clear()
