@@ -11,6 +11,8 @@ class Character(BaseModel):
     magic_reset_rate: int
     special_magic: int
     special_magic_success_rate: int
+    light_theme: bool
+    background_color: tuple
 
     def get_stats(self):
         return {
@@ -40,7 +42,9 @@ harry_potter_dict = {
     "defence_rate": 45,
     "magic_reset_rate": 5,
     "special_magic": 25,
-    "special_magic_success_rate": 50
+    "special_magic_success_rate": 50,
+    "light_theme": True,
+    "background_color": (191, 249, 253)
 }
 
 dumbledore_dict = {
@@ -52,7 +56,9 @@ dumbledore_dict = {
     "defence_rate": 55,
     "magic_reset_rate": 5,
     "special_magic": 37,
-    "special_magic_success_rate": 49
+    "special_magic_success_rate": 49,
+    "light_theme": True,
+    "background_color": (200, 253, 191)
 }
 
 voldemort_dict = {
@@ -64,7 +70,9 @@ voldemort_dict = {
     "defence_rate": 35,
     "magic_reset_rate": 5,
     "special_magic": 33,
-    "special_magic_success_rate": 42
+    "special_magic_success_rate": 42,
+    "light_theme": False,
+    "background_color": (10, 10, 10)
 }
 
 hermione_dict = {
@@ -76,7 +84,9 @@ hermione_dict = {
     "defence_rate": 50,
     "magic_reset_rate": 5,
     "special_magic": 30,
-    "special_magic_success_rate": 50
+    "special_magic_success_rate": 50,
+    "light_theme": True,
+    "background_color": (255, 232, 249)
 }
 
 harry_potter = Character(**harry_potter_dict)

@@ -1,7 +1,7 @@
 import socket
 import time
 from _thread import start_new_thread
-from choose_character_scene import show_choosing_character_screen
+from choose_character_scene import show_choosing_character_screen, change_current_character_index
 from playing_scene import show_playing_screen, change_playing_status, activate_move, disable_move, disabled_moves
 from ending_scene import show_ending_scene
 from player import Player
@@ -12,6 +12,7 @@ sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 WIDTH, HEIGHT = 900, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+BACKGROUND = colors.WHITE
 pygame.display.set_caption('To The Theath')
 
 server_address = ('127.0.0.1', 4000)
@@ -30,6 +31,12 @@ def change_scene(scene):
     SCENE = scene
 
 
+def change_background(background, light_theme=True):
+    global BACKGROUND
+    BACKGROUND = background
+    change_light_theme(light_theme)
+
+
 def connect_to_server():
     global sc
     global characters
@@ -38,6 +45,7 @@ def connect_to_server():
             sc.connect(server_address)
             characters = extract_characters(sc.recv(1024).decode('utf-8'))
             change_scene("choosing_character")
+            change_current_character_index(0, characters, change_background)
             start_new_thread(game_stat_receiver, ())
             break
         except ConnectionRefusedError:
@@ -131,15 +139,15 @@ def start_new_game():
 def handle_scenes(events):
     match SCENE:
         case 'choosing_character':
-            show_choosing_character_screen(events, start_game, characters=characters)
+            show_choosing_character_screen(events, start_game, characters, change_background)
         case 'waiting':
-            draw_center_text('Waiting for other player ...')
+            draw_center_text('Waiting for other player ...', colors.BLACK)
         case 'connecting':
-            draw_center_text('Connecting ...')
+            draw_center_text('Connecting ...', colors.BLACK)
         case 'playing':
             show_playing_screen(events, sc, you, enemy)
         case 'connection_error':
-            draw_center_text("Connection Error !!")
+            draw_center_text("Connection Error !!", colors.BLACK)
         case 'ending':
             show_ending_scene(MATCH_RESULT, events, start_new_game)
 
@@ -154,7 +162,7 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
-        WIN.fill(WHITE)
+        WIN.fill(BACKGROUND)
         handle_scenes(events)
         pygame.display.update()
     pygame.quit()
