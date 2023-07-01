@@ -10,3 +10,5 @@ def show_ending_scene(result: str, events, start_new_game):
         draw_center_text('Hooray, you won the game! Press enter to restart the game...')
     elif result == 'lose':
         draw_center_text('Damn it, you lost! Press enter to restart the game...')
+    elif result == 'enemy_disconnected':
+        draw_center_text("Your enemy disconnected !! Press enter to restart the game ...")

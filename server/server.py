@@ -32,7 +32,7 @@ def process_move(player: Player, move: str):
             msg = {'result': 'win',
                    'header': 'end'}
             winner.send(json.dumps(msg))
-            
+
             loser_index = int(not bool(winner.index))
             loser: Player = running_matches[winner.match_id][loser_index]
             msg = {'result': 'lose',
@@ -73,6 +73,20 @@ def handle_player_msg(msg, player: Player):
         print(msg)
 
 
+def handle_player_disconnection(player):
+    global waiting_player
+    if waiting_player == player:
+        waiting_player = None
+    elif player.match_id is not None:
+        enemy_index = int(not bool(player.index))
+        enemy: Player = running_matches[player.match_id][enemy_index]
+        enemy.send(json.dumps({
+            "result": "enemy_disconnected",
+            "header": "end"
+        }))
+    print(">> DISCONNECTED:", player.address)
+
+
 def handle_player_connection(player):
     while True:
         try:
@@ -85,7 +99,7 @@ def handle_player_connection(player):
         except socket.error as e:
             print(e)
             break
-    print(">> DISCONNECTED:", player.address)
+    handle_player_disconnection(player)
 
 
 def start_server():
