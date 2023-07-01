@@ -23,11 +23,11 @@ class Player(BaseModel):
         else:
             self.health = 0
 
-    def decrease_magic(self, value):
+    def decrease_magic(self, value) -> bool:
         if self.magic - value > 0:
             self.magic -= value
-        else:
-            self.magic = 0
+            return True
+        return False
 
     def increase_magic(self):
         reset_rate = self.character.magic_reset_rate

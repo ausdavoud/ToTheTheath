@@ -57,8 +57,10 @@ class Fight(BaseModel):
 
         success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
 
-        new_player1.decrease_magic(magic_power)
-        new_player2.decrease_health(success * magic_power)
+        if new_player1.decrease_magic(magic_power):
+            new_player2.decrease_health(success * magic_power)
+        else:
+            new_player1.fight_result_str = 'Your magic is not enough'
 
         if success:
             new_player1.fight_result_str = "You spelled the enemy"
