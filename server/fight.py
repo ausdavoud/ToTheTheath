@@ -14,7 +14,7 @@ class Fight(BaseModel):
     def send_stat(player1, player2) -> None:
         msg = {"health": player1.health,
                "magic": player1.magic,
-               "result_str": player1.fight_result_str,
+               "fight_result": player1.fight_result,
                "enemy_health": player2.health,
                "enemy_magic": player2.magic,
                "header": 'change_stat'}
@@ -22,7 +22,7 @@ class Fight(BaseModel):
 
         msg = {"health": player2.health,
                "magic": player2.magic,
-               "result_str": player2.fight_result_str,
+               "fight_result": player2.fight_result,
                "enemy_health": player1.health,
                "enemy_magic": player1.magic,
                "header": 'change_stat'}
