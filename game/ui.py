@@ -27,6 +27,19 @@ def draw_center_text(text, font=header_font, color=BLACK):
     font.render_to(window(), destination, text, color)
 
 
+def draw_center_text_list(text_list: list, text_color=BLACK, font=header_font):
+    height = 0
+    for i, text in enumerate(text_list):
+        text_rect = font.get_rect(text)
+        height += text_rect.height
+    height += (len(text_list) - 1) * 24
+    y = (window().get_height() + height) / 2
+    for i in range(len(text_list)):
+        text_rect = font.get_rect(text_list[i])
+        x = (window().get_width() - text_rect.width) / 2
+        draw_text(text_list[i], x, y + (text_rect.height + 24) * i, text_color, font)
+
+
 def draw_fill_rect(width, height, x, y, bg=GRAY):
     rect = pygame.Rect(x, y, width, height)
     pygame.draw.rect(window(), bg, rect, 0)

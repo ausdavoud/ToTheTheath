@@ -79,7 +79,7 @@ def handle_server_msg(msg: str) -> None:
         you.magic = msg['magic']
         enemy.health = msg['enemy_health']
         enemy.magic = msg['enemy_magic']
-        you.fight_result_str = msg['result_str']
+        you.fight_result = msg['fight_result']
         change_playing_status("showing_result")
         time.sleep(1.5)
         change_playing_status('choosing_move')
@@ -121,7 +121,7 @@ def handle_scenes(events):
             draw_center_text("Connection Error !!")
         case 'ending':
             show_ending_scene(MATCH_RESULT)
-            
+
 
 
 def main():

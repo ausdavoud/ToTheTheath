@@ -50,7 +50,7 @@ def show_playing_screen(events, socket, you, enemy):
                 change_playing_status('waiting')
 
     if status == "showing_result":
-        draw_center_text(you.fight_result_str)
+        draw_center_text_list(you.fight_result)
     else:
         draw_bars(you.health, you.magic, 100, 40, you.character['name'])
         draw_bars(enemy.health, enemy.magic, 560, 40, enemy.character['name'])

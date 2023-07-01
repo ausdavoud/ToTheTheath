@@ -6,4 +6,4 @@ class Player(BaseModel):
     magic: int = 100
     magic_limit: int = 100
     character: dict
-    fight_result_str: str = ""
+    fight_result: list = []
