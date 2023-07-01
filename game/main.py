@@ -4,10 +4,6 @@ from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen
 from playing_scene import show_playing_screen, change_playing_status
 from player import Player
-import sys
-
-sys.path.insert(0, '.')
-from server.character import find_character
 from ui import *
 import json
 
@@ -85,6 +81,11 @@ def handle_server_msg(msg: str) -> None:
         change_playing_status("showing_result")
         time.sleep(1.5)
         change_playing_status('choosing_move')
+
+
+def find_character(name):
+    for character in characters:
+        if character['name'] == name: return character
 
 
 def extract_characters(text: str) -> list[dict]:
