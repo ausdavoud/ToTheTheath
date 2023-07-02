@@ -5,45 +5,38 @@ from player import Player
 FILE_NAME = 'ttt_log.txt'
 
 class Log(BaseModel):
-    player1_IP: tuple
-    player2_IP: tuple
-    player1_character: str
-    player2_character: str
+    player1: Player
+    player2: Player
     round: int = 0
     players_IPs: dict = {}
     
     def start_logging(self) -> None:
-        self.players_IPs = {self.player1_IP: f'[0]{self.player1_character}',
-                              self.player2_IP: f'[1]{self.player2_character}'}
+        self.players_IPs = {self.player1.address: f'[0]{self.player1.name}',
+                              self.player2.address: f'[1]{self.player2.name}'}
         with open(FILE_NAME, 'a', encoding='utf-8') as file:
             msg = f'''-------------------------------
 MATCH START: {datetime.now()}
-{self.player1_IP}: {self.players_IPs[self.player1_IP]}
-{self.player2_IP}: {self.players_IPs[self.player2_IP]}\n\n'''
+{self.player1.address}: {self.players_IPs[self.player1.address]}
+{self.player2.address}: {self.players_IPs[self.player2.address]}\n\n'''
             file.write(msg)
-            
+
         self.round+=1
-            
-    def round_logging(self, player1_IP: tuple, player2_IP: tuple, 
-                      player1_move: str, player2_move: str,
-                      player1_move_result: bool, player2_move_result:  bool,
-                      player1_health, player2_health,
-                      player1_magic, player2_magic) -> None:
-        
-        player1_move_result = str(player1_move_result).replace('True', 'Success').replace('False', 'Fail')
-        player2_move_result = str(player2_move_result).replace('True', 'Success').replace('False', 'Fail')
+
+    def round_logging(self, player1_move_result: bool, player2_move_result: bool) -> None:
+        player1_move_result = 'Success' if player1_move_result==True else 'Fail'
+        player2_move_result = 'Success' if player2_move_result==True else 'Fail'
         with open(FILE_NAME, 'a', encoding='utf-8') as file:
             msg = f'''>> ROUND {self.round}:
-{self.players_IPs[player1_IP]}: {player1_move} -> {player1_move_result}
-{self.players_IPs[player2_IP]}: {player2_move} -> {player2_move_result}
+{self.players_IPs[self.player1.address]}: {self.player1.current_move} -> {player1_move_result}
+{self.players_IPs[self.player2.address]}: {self.player2.current_move} -> {player2_move_result}
 >>>> DESCRIPTION:
-{self.players_IPs[player1_IP]}: HEALTH = {player1_health}, MAGIC = {player1_magic}
-{self.players_IPs[player2_IP]}: HEALTH = {player2_health}, MAGIC = {player2_magic}\n\n'''
+{self.players_IPs[self.player1.address]}: HEALTH = {self.player1.health}, MAGIC = {self.player1.magic}
+{self.players_IPs[self.player2.address]}: HEALTH = {self.player2.health}, MAGIC = {self.player2.magic}\n\n'''
             file.write(msg)
         self.round += 1
     
     def finish_logging(self, winner_IP: tuple) -> None:
-        loser_IP = self.player1_IP if winner_IP == self.player2_IP else self.player2_IP
+        loser_IP = self.player1.address if winner_IP == self.player2.address else self.player2.address
         with open(FILE_NAME, 'a', encoding='utf-8') as file:
             msg = f'''<< RESULT >>:
 WINNER: {self.players_IPs[winner_IP]}

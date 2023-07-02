@@ -90,11 +90,7 @@ class Fight(BaseModel):
         if self.player1_move == 'defence' and self.player2_move == 'defence':
             self.player1.fight_result.append("Both defended")
             self.player2.fight_result.append("Both defended")
-            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
-                                      player1_move='defence', player2_move='defence',
-                                      player1_move_result=True, player2_move_result=True,
-                                      player1_health=self.player1.health, player2_health=self.player2.health,
-                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
+            self.logger.round_logging(player1_move_result=True, player2_move_result=True)
         elif self.player1_move == 'defence':
             if defence_success := Fight.is_defence_successful(self.player1):
                 move_success = False
@@ -105,11 +101,7 @@ class Fight(BaseModel):
                     self.player2.decrease_magic()
             else:
                 move_success = moves[self.player2_move](1)
-            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
-                                      player1_move='defence', player2_move=self.player2_move,
-                                      player1_move_result=defence_success, player2_move_result=move_success,
-                                      player1_health=self.player1.health, player2_health=self.player2.health,
-                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
+            self.logger.round_logging(player1_move_result=defence_success, player2_move_result=move_success)
 
         elif self.player2_move == 'defence':
             if defence_success := Fight.is_defence_successful(self.player2):
@@ -121,20 +113,12 @@ class Fight(BaseModel):
                     self.player1.decrease_magic()
             else:
                 move_success = moves[self.player1_move](0)
-            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
-                                      player1_move=self.player1_move, player2_move='defence',
-                                      player1_move_result=move_success, player2_move_result=defence_success,
-                                      player1_health=self.player1.health, player2_health=self.player2.health,
-                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
+            self.logger.round_logging(player1_move_result=move_success, player2_move_result=defence_success)
 
         else:
             player1_move_success = moves[self.player1_move](0)
             player2_move_success = moves[self.player2_move](1)
-            self.logger.round_logging(player1_IP=self.player1.address, player2_IP= self.player2.address,
-                                      player1_move=self.player1_move, player2_move=self.player2_move,
-                                      player1_move_result=player1_move_success, player2_move_result=player2_move_success,
-                                      player1_health=self.player1.health, player2_health=self.player2.health,
-                                      player1_magic=self.player1.magic, player2_magic=self.player2.magic)
+            self.logger.round_logging(player1_move_result=player1_move_success, player2_move_result=player2_move_success,)
 
         winner: Player = None
         if self.player1.is_dead() and self.player2.is_dead():

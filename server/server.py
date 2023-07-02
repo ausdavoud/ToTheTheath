@@ -57,8 +57,7 @@ def start_match(player1: Player, player2: Player):
                              "header": "namechosed"}))
     player2.send(json.dumps({"name": player1.name,
                              "header": "namechosed"}))
-    logger = Log(player1_IP=player1.address, player2_IP=player2.address,
-                 player1_character=player1.name, player2_character=player2.name)
+    logger = Log(player1=player1, player2=player2)
     logger.start_logging()
 
 def handle_player_msg(msg, player: Player):
