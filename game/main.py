@@ -25,7 +25,7 @@ enemy: Player = None
 characters: list[dict] = []
 
 
-def change_scene(scene):
+def change_scene(scene: str) -> None:
     global SCENE
     time.sleep(0.2)
     SCENE = scene
