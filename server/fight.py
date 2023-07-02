@@ -127,7 +127,7 @@ class Fight(BaseModel):
         elif self.player2.is_dead():
             winner = self.player1
         if winner is not None:
-            self.logger.finish_logging(winner_IP=winner.address)
+            self.logger.finish_logging(winner)
             return winner
 
         self.send_stat()
