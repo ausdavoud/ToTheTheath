@@ -4,7 +4,6 @@ from random import choices, choice
 from _log import Log
 import json
 
-
 class Fight(BaseModel):
     player1: Player
     player2: Player
@@ -29,56 +28,45 @@ class Fight(BaseModel):
                "header": 'change_stat'}
         player2.send(json.dumps(msg))
 
-    def strike(self, doer: int) -> None:
-        players: list[Player] = [self.player1, self.player2]
-
-        new_player1 = players[doer]
-        new_player2 = players[int(not bool(doer))]
-
-        strike_power = new_player1.character.strike_power
-        success_rate = new_player1.character.strike_rate / 100
-        success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
-
-        new_player2.decrease_health(success * strike_power)
-        if success:
-            new_player1.fight_result.append("You striked the enemy")
-            new_player2.fight_result.append("Enemy striked You")
-        else:
-            new_player1.fight_result.append("You could not strike the enemy")
-            new_player2.fight_result.append("Enemy could not strike you")
-            
-        return bool(success)
-
-    def magic(self, doer: int) -> None:
-        players: list[Player] = [self.player1, self.player2]
-
-        new_player1 = players[doer]
-        new_player2 = players[int(not bool(doer))]
-
-        magic_power = new_player1.character.magic_power
-        success_rate = new_player1.character.magic_rate / 100
-
-        success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
-
-        if new_player1.decrease_magic():
-            new_player2.decrease_health(success * magic_power)
-        else:
-            new_player1.fight_result.append('Your magic is not enough')
-
-        if success:
-            new_player1.fight_result.append("You spelled the enemy")
-            new_player2.fight_result.append("Enemy spelled you")
-        else:
-            new_player1.fight_result.append("You could not spell the enemy")
-            new_player2.fight_result.append("Enemy could not spell you")
-        
-        return bool(success)
-
     @staticmethod
-    def is_defence_successful(player: Player) -> bool:
-        success_rate = player.character.defence_rate / 100
+    def is_move_successful(success_rate: int) -> bool:
+        success_rate /= 100
         success = choices([1, 0], weights=[success_rate, 1 - success_rate], k=1)[0]
         return bool(success)
+    
+    def strike(self, doer: Player) -> bool:
+        enemy = self.player1 if doer.index == self.player2.index else self.player2
+        strike_power = doer.character.strike_power
+        success = Fight.is_move_successful(doer.character.strike_rate)
+
+        enemy.decrease_health(int(success) * strike_power)
+        if success:
+            doer.fight_result.append("You striked the enemy")
+            enemy.fight_result.append("Enemy striked You")
+        else:
+            doer.fight_result.append("You could not strike the enemy")
+            enemy.fight_result.append("Enemy could not strike you")
+            
+        return success
+
+    def magic(self, doer: Player) -> bool:
+        enemy = self.player1 if doer.index == self.player2.index else self.player2
+        magic_power = doer.character.magic_power
+        success = Fight.is_move_successful(doer.character.magic_rate)
+
+        if doer.decrease_magic():
+            enemy.decrease_health(int(success) * magic_power)
+        else:
+            doer.fight_result.append('Your magic is not enough')
+
+        if success:
+            doer.fight_result.append("You spelled the enemy")
+            enemy.fight_result.append("Enemy spelled you")
+        else:
+            doer.fight_result.append("You could not spell the enemy")
+            enemy.fight_result.append("Enemy could not spell you")
+        
+        return success
     
     def fight(self):
         moves = {
@@ -91,7 +79,7 @@ class Fight(BaseModel):
             self.player2.fight_result.append("Both defended")
             self.logger.round_logging(player1_move_result=True, player2_move_result=True)
         elif self.player1.current_move == 'defence':
-            if defence_success := Fight.is_defence_successful(self.player1):
+            if defence_success := Fight.is_move_successful(self.player1.character.defence_rate):
                 move_success = False
                 self.player1.fight_result.append("You defended the enemy's attack")
                 self.player2.fight_result.append("Enemy defended your attack")
@@ -99,11 +87,11 @@ class Fight(BaseModel):
                     self.player1.increase_magic()
                     self.player2.decrease_magic()
             else:
-                move_success = moves[self.player2.current_move ](1)
+                move_success = moves[self.player2.current_move](self.player2)
             self.logger.round_logging(player1_move_result=defence_success, player2_move_result=move_success)
 
         elif self.player2.current_move  == 'defence':
-            if defence_success := Fight.is_defence_successful(self.player2):
+            if defence_success := Fight.is_move_successful(self.player2.character.defence_rate):
                 move_success = False
                 self.player2.fight_result.append("You defended enemy's attack")
                 self.player1.fight_result.append("Enemy defended your attack")
@@ -111,13 +99,13 @@ class Fight(BaseModel):
                     self.player2.increase_magic()
                     self.player1.decrease_magic()
             else:
-                move_success = moves[self.player1.current_move](0)
+                move_success = moves[self.player1.current_move](self.player1)
             self.logger.round_logging(player1_move_result=move_success, player2_move_result=defence_success)
 
         else:
-            player1_move_success = moves[self.player1.current_move](0)
-            player2_move_success = moves[self.player2.current_move ](1)
-            self.logger.round_logging(player1_move_result=player1_move_success, player2_move_result=player2_move_success,)
+            player1_move_success = moves[self.player1.current_move](self.player1)
+            player2_move_success = moves[self.player2.current_move ](self.player2)
+            self.logger.round_logging(player1_move_result=player1_move_success, player2_move_result=player2_move_success)
 
         winner: Player = None
         if self.player1.is_dead() and self.player2.is_dead():
