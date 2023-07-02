@@ -40,25 +40,25 @@ harry_potter_dict = {
     "magic_rate": 35,
     "strike_rate": 70,
     "defence_rate": 45,
-    "magic_reset_rate": 5,
+    "magic_reset_rate": 13,
     "special_magic": 25,
     "special_magic_success_rate": 50,
-    "light_theme": True,
-    "background_color": (191, 249, 253)
+    "light_theme": False,
+    "background_color": (63, 0, 113) #(191, 249, 253)
 }
 
 dumbledore_dict = {
     "name": "Dumbledore",
-    "strike_power": 38,
+    "strike_power": 13,
     "magic_power": 17,
     "magic_rate": 65,
     "strike_rate": 70,
     "defence_rate": 55,
-    "magic_reset_rate": 5,
+    "magic_reset_rate": 7,
     "special_magic": 37,
     "special_magic_success_rate": 49,
     "light_theme": True,
-    "background_color": (200, 253, 191)
+    "background_color": (221, 230, 237) #(200, 253, 191)
 }
 
 voldemort_dict = {
@@ -68,25 +68,25 @@ voldemort_dict = {
     "magic_rate": 55,
     "strike_rate": 70,
     "defence_rate": 35,
-    "magic_reset_rate": 5,
+    "magic_reset_rate": 12,
     "special_magic": 33,
     "special_magic_success_rate": 42,
     "light_theme": False,
-    "background_color": (10, 10, 10)
+    "background_color": (33, 53, 85)  #(12, 19, 79)
 }
 
 hermione_dict = {
     "name": "Hermione",
-    "strike_power": 40,
+    "strike_power": 12,
     "magic_power": 15,
     "magic_rate": 60,
     "strike_rate": 50,
     "defence_rate": 50,
-    "magic_reset_rate": 5,
+    "magic_reset_rate": 11,
     "special_magic": 30,
     "special_magic_success_rate": 50,
     "light_theme": True,
-    "background_color": (255, 232, 249)
+    "background_color": (255, 226, 226) #(255, 232, 249)
 }
 
 harry_potter = Character(**harry_potter_dict)
