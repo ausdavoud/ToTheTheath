@@ -73,47 +73,47 @@ class Fight(BaseModel):
             'strike': self.strike,
             'magic': self.magic
         }
-
+        
+        player1_move_result: bool
+        player2_move_result: bool
         if self.player1.current_move == 'defence' and self.player2.current_move == 'defence':
             self.player1.fight_result.append("Both defended")
             self.player2.fight_result.append("Both defended")
-            self.logger.round_logging(player1_move_result=True, player2_move_result=True)
+            player1_move_result, player2_move_result = True, True
+
         elif self.player1.current_move == 'defence':
-            if defence_success := Fight.is_move_successful(self.player1.character.defence_rate):
-                move_success = False
+            if player1_move_result := Fight.is_move_successful(self.player1.character.defence_rate):
+                player2_move_result = False
                 self.player1.fight_result.append("You defended the enemy's attack")
                 self.player2.fight_result.append("Enemy defended your attack")
                 if self.player2.current_move  == 'magic':
                     self.player1.increase_magic()
                     self.player2.decrease_magic()
             else:
-                move_success = moves[self.player2.current_move](self.player2)
-            self.logger.round_logging(player1_move_result=defence_success, player2_move_result=move_success)
+                player2_move_result = moves[self.player2.current_move](self.player2)
 
         elif self.player2.current_move  == 'defence':
-            if defence_success := Fight.is_move_successful(self.player2.character.defence_rate):
-                move_success = False
+            if player2_move_result := Fight.is_move_successful(self.player2.character.defence_rate):
+                player1_move_result = False
                 self.player2.fight_result.append("You defended enemy's attack")
                 self.player1.fight_result.append("Enemy defended your attack")
                 if self.player1.current_move == 'magic':
                     self.player2.increase_magic()
                     self.player1.decrease_magic()
             else:
-                move_success = moves[self.player1.current_move](self.player1)
-            self.logger.round_logging(player1_move_result=move_success, player2_move_result=defence_success)
+                player1_move_result = moves[self.player1.current_move](self.player1)
 
         else:
-            player1_move_success = moves[self.player1.current_move](self.player1)
-            player2_move_success = moves[self.player2.current_move ](self.player2)
-            self.logger.round_logging(player1_move_result=player1_move_success, player2_move_result=player2_move_success)
+            player1_move_result = moves[self.player1.current_move](self.player1)
+            player2_move_result = moves[self.player2.current_move ](self.player2)
+        self.logger.round_logging(player1_move_result=player1_move_result, player2_move_result=player2_move_result)
 
         winner: Player = None
         if self.player1.is_dead() and self.player2.is_dead():
             winner = choice([self.player1, self.player2])
-        elif self.player1.is_dead():
-            winner = self.player2
-        elif self.player2.is_dead():
-            winner = self.player1
+        elif self.player1.is_dead() or self.player2.is_dead():
+            winner = self.player1 if self.player1.is_dead else self.player2
+
         if winner is not None:
             self.logger.finish_logging(winner)
             return winner

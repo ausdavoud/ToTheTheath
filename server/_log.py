@@ -2,7 +2,7 @@ from player import Player
 from datetime import datetime
 from pydantic import BaseModel
 
-FILE_NAME = 'ttt_log.txt'
+FILE_NAME = './server/ttt_log.txt'
 
 class Log(BaseModel):
     player1: Player

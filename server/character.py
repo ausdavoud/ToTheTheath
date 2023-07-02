@@ -9,8 +9,6 @@ class Character(BaseModel):
     strike_rate: int
     defence_rate: int
     magic_reset_rate: int
-    special_magic: int
-    special_magic_success_rate: int
     light_theme: bool
     background_color: tuple
 
@@ -23,8 +21,6 @@ class Character(BaseModel):
             "Strike Success Rate": self.strike_rate,
             "Defence Success Rate": self.defence_rate,
             "Magic Reset Rate": self.magic_reset_rate,
-            "Special Magic Power": self.special_magic,
-            "Special Magic Success Rate": self.special_magic_success_rate
         }
 
 

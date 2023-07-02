@@ -27,7 +27,7 @@ characters: list[dict] = []
 
 def change_scene(scene):
     global SCENE
-    time.sleep(0.1)
+    time.sleep(0.2)
     SCENE = scene
 
 

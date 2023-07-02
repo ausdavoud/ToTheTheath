@@ -61,7 +61,7 @@ def show_playing_screen(events, socket, you, enemy):
                 move_index -= 1
             elif event.key == pygame.K_DOWN and move_index < len(moves) - 1:
                 move_index += 1
-            elif event.key == pygame.K_RETURN:
+            elif event.key == pygame.K_RETURN and status == 'choosing_move':
                 socket.sendall(json.dumps({"header": "move", "move": moves[move_index]}).encode('utf-8'))
                 change_playing_status('waiting')
 
