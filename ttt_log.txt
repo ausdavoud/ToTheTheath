@@ -289,3 +289,92 @@ WINNER: [0]Dumbledore
 LOSER: [1]Voldemort
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 00:23:30.753215
+('127.0.0.1', 52208): [0]Harry Potter
+('127.0.0.1', 52211): [1]Dumbledore
+
+>> ROUND 1:
+[0]Harry Potter: magic -> Fail | HEALTH = 100 | MAGIC = 86
+[1]Dumbledore: magic -> Fail | HEALTH = 100 | MAGIC = 83
+
+>> ROUND 2:
+[0]Harry Potter: magic -> Fail | HEALTH = 83 | MAGIC = 72
+[1]Dumbledore: magic -> Success | HEALTH = 100 | MAGIC = 66
+
+>> ROUND 3:
+[0]Harry Potter: magic -> Success | HEALTH = 83 | MAGIC = 58
+[1]Dumbledore: magic -> Fail | HEALTH = 86 | MAGIC = 49
+
+>> ROUND 4:
+[0]Harry Potter: magic -> Fail | HEALTH = 66 | MAGIC = 44
+[1]Dumbledore: magic -> Success | HEALTH = 86 | MAGIC = 32
+
+>> ROUND 5:
+[0]Harry Potter: magic -> Fail | HEALTH = 66 | MAGIC = 30
+[1]Dumbledore: magic -> Fail | HEALTH = 86 | MAGIC = 15
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 00:26:16.285196
+('127.0.0.1', 52247): [0]Dumbledore
+('127.0.0.1', 52245): [1]Voldemort
+
+>> ROUND 1:
+[0]Dumbledore: magic -> Success | HEALTH = 84 | MAGIC = 83
+[1]Voldemort: magic -> Success | HEALTH = 83 | MAGIC = 84
+
+>> ROUND 2:
+[0]Dumbledore: magic -> Success | HEALTH = 68 | MAGIC = 66
+[1]Voldemort: magic -> Success | HEALTH = 66 | MAGIC = 68
+
+>> ROUND 3:
+[0]Dumbledore: magic -> Success | HEALTH = 52 | MAGIC = 49
+[1]Voldemort: magic -> Success | HEALTH = 49 | MAGIC = 52
+
+>> ROUND 4:
+[0]Dumbledore: magic -> Fail | HEALTH = 52 | MAGIC = 32
+[1]Voldemort: magic -> Fail | HEALTH = 49 | MAGIC = 36
+
+>> ROUND 5:
+[0]Dumbledore: magic -> Success | HEALTH = 36 | MAGIC = 15
+[1]Voldemort: magic -> Success | HEALTH = 32 | MAGIC = 20
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 00:27:48.145185
+('127.0.0.1', 52257): [0]Dumbledore
+('127.0.0.1', 52256): [1]Voldemort
+
+>> ROUND 1:
+[0]Dumbledore: magic -> Success | HEALTH = 100 | MAGIC = 23
+[1]Voldemort: magic -> Fail | HEALTH = 83 | MAGIC = 24
+
+>> ROUND 2:
+[0]Dumbledore: magic -> Success | HEALTH = 100 | MAGIC = 6
+[1]Voldemort: magic -> Fail | HEALTH = 66 | MAGIC = 8
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 00:29:00.182618
+('127.0.0.1', 52265): [0]Harry Potter
+('127.0.0.1', 52263): [1]Dumbledore
+
+>> ROUND 1:
+[0]Harry Potter: magic -> Fail | HEALTH = 100 | MAGIC = 26
+[1]Dumbledore: magic -> Fail | HEALTH = 100 | MAGIC = 23
+
+>> ROUND 2:
+[0]Harry Potter: magic -> Success | HEALTH = 83 | MAGIC = 12
+[1]Dumbledore: magic -> Success | HEALTH = 86 | MAGIC = 6
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 00:29:42.667363
+('127.0.0.1', 52269): [0]Harry Potter
+('127.0.0.1', 52271): [1]Dumbledore
+
+>> ROUND 1:
+[0]Harry Potter: magic -> Success | HEALTH = 100 | MAGIC = 26
+[1]Dumbledore: magic -> Fail | HEALTH = 86 | MAGIC = 23
+
+>> ROUND 2:
+[0]Harry Potter: magic -> Fail | HEALTH = 100 | MAGIC = 12
+[1]Dumbledore: magic -> Fail | HEALTH = 86 | MAGIC = 6
+

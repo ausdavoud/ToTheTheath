@@ -43,8 +43,8 @@ harry_potter_dict = {
     "magic_reset_rate": 13,
     "special_magic": 25,
     "special_magic_success_rate": 50,
-    "light_theme": False,
-    "background_color": (63, 0, 113) #(191, 249, 253)
+    "light_theme": True,
+    "background_color": (215, 195, 245) #(191, 249, 253)
 }
 
 dumbledore_dict = {
