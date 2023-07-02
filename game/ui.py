@@ -28,7 +28,7 @@ def change_light_theme(light_theme: bool):
     if LIGHT_THEME:
         colors.WHITE = (255, 255, 255)
         colors.BLACK = (0, 0, 0)
-        colors.GRAY = (230, 230, 230)
+        colors.GRAY = (190, 190, 190)
     else:
         colors.WHITE = (0, 0, 0)
         colors.BLACK = (255, 255, 255)
