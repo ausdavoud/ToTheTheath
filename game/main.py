@@ -78,7 +78,7 @@ def handle_server_msg(msg: str) -> None:
     print(msg)
     msg = json.loads(msg)
     if msg['header'] == 'namechosed':
-        enemy = find_character(msg['name'])
+        enemy = find_character(msg['enemyname'])
         if enemy:
             enemy = Player(character=enemy)
             change_scene('playing')

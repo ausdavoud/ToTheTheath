@@ -8,12 +8,11 @@ import json
 class Fight(BaseModel):
     player1: Player
     player2: Player
-    player1_move: str
-    player2_move: str
     logger: Log
 
-    @staticmethod
-    def send_stat(player1, player2) -> None:
+    def send_stat(self) -> None:
+        player1 = self.player1
+        player2 = self.player2
         msg = {"health": player1.health,
                "magic": player1.magic,
                "fight_result": player1.fight_result,
@@ -87,37 +86,37 @@ class Fight(BaseModel):
             'magic': self.magic
         }
 
-        if self.player1_move == 'defence' and self.player2_move == 'defence':
+        if self.player1.current_move == 'defence' and self.player2.current_move == 'defence':
             self.player1.fight_result.append("Both defended")
             self.player2.fight_result.append("Both defended")
             self.logger.round_logging(player1_move_result=True, player2_move_result=True)
-        elif self.player1_move == 'defence':
+        elif self.player1.current_move == 'defence':
             if defence_success := Fight.is_defence_successful(self.player1):
                 move_success = False
                 self.player1.fight_result.append("You defended the enemy's attack")
                 self.player2.fight_result.append("Enemy defended your attack")
-                if self.player2_move == 'magic':
+                if self.player2.current_move  == 'magic':
                     self.player1.increase_magic()
                     self.player2.decrease_magic()
             else:
-                move_success = moves[self.player2_move](1)
+                move_success = moves[self.player2.current_move ](1)
             self.logger.round_logging(player1_move_result=defence_success, player2_move_result=move_success)
 
-        elif self.player2_move == 'defence':
+        elif self.player2.current_move  == 'defence':
             if defence_success := Fight.is_defence_successful(self.player2):
                 move_success = False
                 self.player2.fight_result.append("You defended enemy's attack")
                 self.player1.fight_result.append("Enemy defended your attack")
-                if self.player1_move == 'magic':
+                if self.player1.current_move == 'magic':
                     self.player2.increase_magic()
                     self.player1.decrease_magic()
             else:
-                move_success = moves[self.player1_move](0)
+                move_success = moves[self.player1.current_move](0)
             self.logger.round_logging(player1_move_result=move_success, player2_move_result=defence_success)
 
         else:
-            player1_move_success = moves[self.player1_move](0)
-            player2_move_success = moves[self.player2_move](1)
+            player1_move_success = moves[self.player1.current_move](0)
+            player2_move_success = moves[self.player2.current_move ](1)
             self.logger.round_logging(player1_move_result=player1_move_success, player2_move_result=player2_move_success,)
 
         winner: Player = None
@@ -131,6 +130,6 @@ class Fight(BaseModel):
             self.logger.finish_logging(winner_IP=winner.address)
             return winner
 
-        self.send_stat(self.player1, self.player2)
+        self.send_stat()
         self.player1.fight_result.clear()
         self.player2.fight_result.clear()

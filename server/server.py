@@ -26,10 +26,11 @@ def process_move(player: Player, move: str):
         player.current_move = move
     elif not player.current_move and enemy.current_move:
         player.current_move = move
+        
+        player1 = player if player.index == 0 else enemy
+        player2 = player if player.index == 1 else enemy
 
-        _fight = Fight(player1=player, player2=enemy,
-                    player1_move=player.current_move,
-                    player2_move=enemy.current_move, logger=logger)
+        _fight = Fight(player1=player1, player2=player2, logger=logger)
         if (winner := _fight.fight()) != None:
             msg = {'result': 'win',
                    'header': 'end'}
@@ -53,9 +54,9 @@ def start_match(player1: Player, player2: Player):
     player2.match_id = len(running_matches)
     player2.index = 1
     running_matches.append((player1, player2))
-    player1.send(json.dumps({"name": player2.name,
+    player1.send(json.dumps({"enemyname": player2.name,
                              "header": "namechosed"}))
-    player2.send(json.dumps({"name": player1.name,
+    player2.send(json.dumps({"enemyname": player1.name,
                              "header": "namechosed"}))
     logger = Log(player1=player1, player2=player2)
     logger.start_logging()

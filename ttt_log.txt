@@ -1,74 +1,124 @@
 -------------------------------
-MATCH START: 2023-07-02 07:59:48.356373
-('127.0.0.1', 49904): [0]Dumbledore
-('127.0.0.1', 49906): [1]Voldemort
+MATCH START: 2023-07-02 08:13:59.971236
+('127.0.0.1', 50185): [0]Voldemort
+('127.0.0.1', 50184): [1]Dumbledore
+
+>> ROUND 1:
+[0]Voldemort: magic -> Fail
+[1]Dumbledore: magic -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 83, MAGIC = 84
+[1]Dumbledore: HEALTH = 100, MAGIC = 83
+
+-------------------------------
+MATCH START: 2023-07-02 08:15:28.919981
+('127.0.0.1', 50203): [0]Dumbledore
+('127.0.0.1', 50204): [1]Voldemort
+
+>> ROUND 1:
+[0]Dumbledore: magic -> Success
+[1]Voldemort: magic -> Fail
+>>>> DESCRIPTION:
+[0]Dumbledore: HEALTH = 100, MAGIC = 83
+[1]Voldemort: HEALTH = 83, MAGIC = 84
+
+-------------------------------
+MATCH START: 2023-07-02 08:17:39.142237
+('127.0.0.1', 50253): [0]Dumbledore
+('127.0.0.1', 50254): [1]Voldemort
+
+>> ROUND 1:
+[0]Dumbledore: magic -> Success
+[1]Voldemort: magic -> Success
+>>>> DESCRIPTION:
+[0]Dumbledore: HEALTH = 84, MAGIC = 83
+[1]Voldemort: HEALTH = 83, MAGIC = 84
+
+-------------------------------
+MATCH START: 2023-07-02 08:19:07.797572
+('127.0.0.1', 50278): [0]Voldemort
+('127.0.0.1', 50277): [1]Dumbledore
+
+>> ROUND 1:
+[0]Voldemort: magic -> Fail
+[1]Dumbledore: magic -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 83, MAGIC = 84
+[1]Dumbledore: HEALTH = 100, MAGIC = 83
+
+>> ROUND 2:
+[0]Voldemort: strike -> Fail
+[1]Dumbledore: defence -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 83, MAGIC = 84
+[1]Dumbledore: HEALTH = 100, MAGIC = 83
+
+>> ROUND 3:
+[0]Voldemort: defence -> Fail
+[1]Dumbledore: strike -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 45, MAGIC = 84
+[1]Dumbledore: HEALTH = 100, MAGIC = 83
+
+-------------------------------
+MATCH START: 2023-07-02 08:21:48.979438
+('127.0.0.1', 50310): [0]Voldemort
+('127.0.0.1', 50311): [1]Dumbledore
+
+>> ROUND 1:
+[0]Voldemort: magic -> Success
+[1]Dumbledore: strike -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 62, MAGIC = 84
+[1]Dumbledore: HEALTH = 84, MAGIC = 100
+
+>> ROUND 2:
+[0]Voldemort: defence -> Fail
+[1]Dumbledore: strike -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 24, MAGIC = 84
+[1]Dumbledore: HEALTH = 84, MAGIC = 100
+
+>> ROUND 3:
+[0]Voldemort: strike -> Fail
+[1]Dumbledore: defence -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 24, MAGIC = 84
+[1]Dumbledore: HEALTH = 84, MAGIC = 100
+
+-------------------------------
+MATCH START: 2023-07-02 08:28:11.025086
+('127.0.0.1', 50411): [0]Dumbledore
+('127.0.0.1', 50414): [1]Voldemort
 
 >> ROUND 1:
 [0]Dumbledore: magic -> Fail
-[0]Dumbledore: magic -> Fail
+[1]Voldemort: magic -> Success
 >>>> DESCRIPTION:
 [0]Dumbledore: HEALTH = 100, MAGIC = 83
-[1]Voldemort: HEALTH = 100, MAGIC = 84
+[1]Voldemort: HEALTH = 83, MAGIC = 84
 
 >> ROUND 2:
-[0]Dumbledore: magic -> Success
 [0]Dumbledore: magic -> Fail
+[1]Voldemort: magic -> Success
 >>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 84, MAGIC = 66
-[1]Voldemort: HEALTH = 100, MAGIC = 68
+[0]Dumbledore: HEALTH = 100, MAGIC = 66
+[1]Voldemort: HEALTH = 66, MAGIC = 68
 
->> ROUND 3:
-[0]Dumbledore: magic -> Success
-[0]Dumbledore: magic -> Fail
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 84, MAGIC = 49
-[1]Voldemort: HEALTH = 83, MAGIC = 52
-
->> ROUND 4:
-[0]Dumbledore: magic -> Fail
-[0]Dumbledore: magic -> Fail
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 84, MAGIC = 32
-[1]Voldemort: HEALTH = 83, MAGIC = 36
-
->> ROUND 5:
-[0]Dumbledore: magic -> Success
-[0]Dumbledore: magic -> Fail
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 84, MAGIC = 15
-[1]Voldemort: HEALTH = 66, MAGIC = 20
-
->> ROUND 6:
-[0]Dumbledore: strike -> Fail
-[0]Dumbledore: magic -> Success
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 84, MAGIC = 15
-[1]Voldemort: HEALTH = 28, MAGIC = 4
-
->> ROUND 7:
-[0]Dumbledore: strike -> Fail
-[0]Dumbledore: strike -> Success
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 74, MAGIC = 15
-[1]Voldemort: HEALTH = 28, MAGIC = 4
-
->> ROUND 8:
-[0]Dumbledore: strike -> Success
-[0]Dumbledore: strike -> Fail
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 64, MAGIC = 15
-[1]Voldemort: HEALTH = 28, MAGIC = 4
-
->> ROUND 9:
-[0]Dumbledore: strike -> Success
-[0]Dumbledore: strike -> Success
->>>> DESCRIPTION:
-[0]Dumbledore: HEALTH = 54, MAGIC = 15
-[1]Voldemort: HEALTH = 0, MAGIC = 4
-
-<< RESULT >>:
-WINNER: [0]Dumbledore
-LOSER: [1]Voldemort
 -------------------------------
+MATCH START: 2023-07-02 08:31:15.833083
+('127.0.0.1', 50476): [0]Dumbledore
+('127.0.0.1', 50477): [1]Voldemort
 
+-------------------------------
+MATCH START: 2023-07-02 08:38:44.773008
+('127.0.0.1', 50582): [0]Voldemort
+('127.0.0.1', 50581): [1]Dumbledore
+
+>> ROUND 1:
+[0]Voldemort: magic -> Fail
+[1]Dumbledore: magic -> Success
+>>>> DESCRIPTION:
+[0]Voldemort: HEALTH = 83, MAGIC = 84
+[1]Dumbledore: HEALTH = 100, MAGIC = 83
 
