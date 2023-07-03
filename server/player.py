@@ -13,7 +13,7 @@ class Player(BaseModel):
     character: Character = None
     name: str = None
     health: int = 100
-    magic: int = 100
+    magic: int = 40
     magic_limit: int = 100
     fight_result: list[str] = []
 

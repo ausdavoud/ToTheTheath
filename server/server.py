@@ -26,7 +26,7 @@ def process_move(player: Player, move: str):
         player.current_move = move
     elif not player.current_move and enemy.current_move:
         player.current_move = move
-        
+
         player1 = player if player.index == 0 else enemy
         player2 = player if player.index == 1 else enemy
 
@@ -48,7 +48,7 @@ def process_move(player: Player, move: str):
 
 def start_match(player1: Player, player2: Player):
     global logger
-    
+
     player1.match_id = len(running_matches)
     player1.index = 0
     player2.match_id = len(running_matches)
@@ -60,6 +60,7 @@ def start_match(player1: Player, player2: Player):
                              "header": "namechosed"}))
     logger = Log(player1=player1, player2=player2)
     logger.start_logging()
+
 
 def handle_player_msg(msg, player: Player):
     global waiting_player
