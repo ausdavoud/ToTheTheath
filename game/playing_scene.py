@@ -21,6 +21,11 @@ def disable_move(move: str):
     move_index = 0
 
 
+def reset_moves():
+    global moves, disabled_moves
+    moves = ['strike', 'defence', 'magic']
+    disabled_moves = []
+
 def activate_move(move: str):
     global move_index
     disabled_moves.remove(move)

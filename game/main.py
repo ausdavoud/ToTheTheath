@@ -2,7 +2,7 @@ import socket
 import time
 from _thread import start_new_thread
 from choose_character_scene import show_choosing_character_screen, change_current_character_index
-from playing_scene import show_playing_screen, change_playing_status, activate_move, disable_move, disabled_moves
+from playing_scene import *
 from ending_scene import show_ending_scene
 from player import Player
 from ui import *
@@ -133,6 +133,7 @@ def start_new_game():
     MATCH_RESULT = ''
     change_playing_status('choosing_move')
     sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    reset_moves()
     main()
 
 
