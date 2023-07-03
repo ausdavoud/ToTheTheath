@@ -112,7 +112,7 @@ class Fight(BaseModel):
         if self.player1.is_dead() and self.player2.is_dead():
             winner = choice([self.player1, self.player2])
         elif self.player1.is_dead() or self.player2.is_dead():
-            winner = self.player1 if self.player1.is_dead else self.player2
+            winner = self.player2 if self.player1.is_dead else self.player1
 
         if winner is not None:
             self.logger.finish_logging(winner)
