@@ -1,0 +1,8 @@
+game
+.vscode
+.venv
+Report
+test
+__init__.py
+LICENSE
+README.txt

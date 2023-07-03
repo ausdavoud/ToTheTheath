@@ -1,0 +1,8 @@
+{
+    "disks": [
+      {
+        "name": "storage",
+        "mountTo": "/server"
+      }
+    ]
+  }
