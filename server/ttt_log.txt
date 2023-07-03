@@ -1,0 +1,9 @@
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+MATCH START: 2023-07-03 21:32:33.847289
+('127.0.0.1', 53829): [0]Hermione
+('127.0.0.1', 53827): [1]Harry Potter
+
+>> ROUND 1:
+[0]Hermione: magic -> Success | HEALTH = 86 | MAGIC = 25
+[1]Harry Potter: magic -> Success | HEALTH = 85 | MAGIC = 26
+

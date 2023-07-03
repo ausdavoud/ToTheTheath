@@ -87,9 +87,9 @@ def handle_server_msg(msg: str) -> None:
         you.magic = msg['magic']
 
         magic_power = you.character['magic_power']
-        if you.magic < magic_power and 'magic' not in disabled_moves:
+        if you.magic < magic_power:
             disable_move('magic')
-        elif you.magic > magic_power and 'magic' in disabled_moves:
+        elif you.magic > magic_power:
             activate_move('magic')
 
         enemy.health = msg['enemy_health']

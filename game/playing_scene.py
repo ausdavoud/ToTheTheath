@@ -14,23 +14,26 @@ def change_playing_status(value):
     status = value
 
 
-def disable_move(move: str):
-    global move_index
-    moves.remove(move)
-    disabled_moves.append(move)
-    move_index = 0
-
-
 def reset_moves():
     global moves, disabled_moves
     moves = ['strike', 'defence', 'magic']
     disabled_moves = []
 
+
+def disable_move(move: str):
+    global move_index
+    if move in moves:
+        moves.remove(move)
+        disabled_moves.append(move)
+        move_index = 0
+
+
 def activate_move(move: str):
     global move_index
-    disabled_moves.remove(move)
-    moves.append(move)
-    move_index = 0
+    if move in disabled_moves:
+        disabled_moves.remove(move)
+        moves.append(move)
+        move_index = 0
 
 
 def draw_move_option(move, x, y, selected=False, disabled=False):
